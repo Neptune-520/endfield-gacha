@@ -6,9 +6,13 @@ import {
   CheckCircle2,
   Clipboard,
   Info,
+  Megaphone,
+  Settings,
   Trash2,
   X,
 } from 'lucide-react';
+import LocaleSwitcher from '../common/LocaleSwitcher.jsx';
+import { useI18n } from '../../i18n/index.js';
 
 const TONE_CLASSES = {
   success: {
@@ -111,7 +115,11 @@ export default function NotificationCenter({
   onMarkAllRead,
   onDismiss,
   onClearRead,
+  onOpenSettings,
+  onOpenNews,
+  hasNewAnnouncement,
 }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [copiedId, setCopiedId] = useState(null);
   const [suppressedAutoOpenId, setSuppressedAutoOpenId] = useState(null);
@@ -125,6 +133,15 @@ export default function NotificationCenter({
     && suppressedAutoOpenId !== autoOpenNotification.id
   );
   const visible = open || autoOpen;
+
+  const handleOpenSettings = () => {
+    if (typeof onOpenSettings === 'function') {
+      onOpenSettings();
+    } else if (typeof window !== 'undefined') {
+      const isMobile = window.location.pathname.startsWith('/m');
+      window.location.href = isMobile ? '/m/settings' : '/settings';
+    }
+  };
 
   const suppressCurrentAutoOpen = () => {
     if (autoOpenNotification?.id) {
@@ -143,7 +160,7 @@ export default function NotificationCenter({
   };
 
   return (
-    <div className="fixed bottom-20 right-4 z-[90] sm:bottom-6 sm:right-6">
+    <div className="fixed bottom-20 right-4 z-[90] flex flex-col items-end gap-2.5 sm:bottom-6 sm:right-6">
       {visible && (
         <div className="mb-3 w-[min(25rem,calc(100vw-2rem))] overflow-hidden border border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-950">
           <div className="flex items-center justify-between gap-3 border-b border-zinc-200 bg-slate-50 px-4 py-3 dark:border-zinc-800 dark:bg-zinc-900">
@@ -279,6 +296,33 @@ export default function NotificationCenter({
         </div>
       )}
 
+      {onOpenNews && (
+        <button
+          type="button"
+          onClick={onOpenNews}
+          className="relative inline-flex h-12 w-12 items-center justify-center border border-zinc-300 bg-white text-slate-700 shadow-xl transition-colors hover:border-endfield-yellow hover:text-slate-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 cursor-pointer"
+          aria-label={t('nav.announcements', {}, '公告新闻')}
+          title={t('nav.announcements', {}, '公告新闻')}
+        >
+          <Megaphone size={19} />
+          {hasNewAnnouncement && (
+            <span className="absolute -right-1 -top-1 w-3 h-3 rounded-full bg-red-500 border-2 border-white dark:border-zinc-900 animate-pulse" />
+          )}
+        </button>
+      )}
+
+      <button
+        type="button"
+        onClick={handleOpenSettings}
+        className="relative inline-flex h-12 w-12 items-center justify-center border border-zinc-300 bg-white text-slate-700 shadow-xl transition-colors hover:border-endfield-yellow hover:text-slate-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 cursor-pointer"
+        aria-label={t('nav.settings', {}, '设置')}
+        title={t('nav.settings', {}, '设置')}
+      >
+        <Settings size={19} />
+      </button>
+
+      <LocaleSwitcher variant="floating" />
+
       <button
         type="button"
         onClick={() => {
@@ -290,8 +334,9 @@ export default function NotificationCenter({
 
           setOpen(true);
         }}
-        className="relative inline-flex h-12 w-12 items-center justify-center border border-zinc-300 bg-white text-slate-700 shadow-xl transition-colors hover:border-endfield-yellow hover:text-slate-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
-        aria-label="打开通知中心"
+        className="relative inline-flex h-12 w-12 items-center justify-center border border-zinc-300 bg-white text-slate-700 shadow-xl transition-colors hover:border-endfield-yellow hover:text-slate-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 cursor-pointer"
+        aria-label={t('nav.notifications', {}, '通知中心')}
+        title={t('nav.notifications', {}, '通知中心')}
         aria-expanded={visible}
       >
         <Bell size={19} />

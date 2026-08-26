@@ -11,7 +11,9 @@ export const APP_TAB_IDS = [
   'settings',
   'developerApi',
   'about',
-  'tickets'
+  'tickets',
+  'links',
+  'roadmap'
 ];
 
 export const DESKTOP_TAB_ROUTES = {
@@ -24,7 +26,9 @@ export const DESKTOP_TAB_ROUTES = {
   settings: '/settings',
   developerApi: '/developer-api',
   about: '/about',
-  tickets: '/tickets'
+  tickets: '/tickets',
+  links: '/links',
+  roadmap: '/roadmap'
 };
 
 export const MOBILE_TAB_ROUTES = {
@@ -38,14 +42,17 @@ export const MOBILE_TAB_ROUTES = {
   settings: '/m/settings',
   developerApi: '/m/developer-api',
   about: '/m/about',
-  tickets: '/m/tickets'
+  tickets: '/m/tickets',
+  links: '/m/links',
+  roadmap: '/m/roadmap'
 };
 
 const DESKTOP_TAB_ALIASES = {
   ticket: 'tickets',
   overview: 'summary',
   stats: 'summary',
-  details: 'dashboard'
+  details: 'dashboard',
+  'friend-links': 'links'
 };
 
 const MOBILE_TAB_ALIASES = {

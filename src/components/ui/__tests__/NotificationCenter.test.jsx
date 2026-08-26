@@ -4,6 +4,20 @@ import { describe, expect, it, vi } from 'vitest';
 
 import NotificationCenter from '../NotificationCenter.jsx';
 
+vi.mock('../../../i18n/index.js', async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    useI18n: () => ({
+      isEnglish: false,
+      locale: 'zh-CN',
+      localeMode: 'zh-CN',
+      setLocale: vi.fn(),
+      t: (key) => key,
+    }),
+  };
+});
+
 const noop = vi.fn();
 
 function renderNotificationCenter(notifications) {

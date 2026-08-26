@@ -25,6 +25,8 @@ import ContributorDemoBanner from './components/dev/ContributorDemoBanner.jsx';
 import { isContributorDemoUser } from './dev/contributorDemoMode.js';
 import { useContributorDemoSandboxBridge } from './hooks/app/useContributorDemoSandboxBridge.js';
 
+import NewsModal from './components/modals/NewsModal';
+
 const GachaModals = React.lazy(() => import('./components/modals/GachaModals'));
 const DataImportWizardModal = React.lazy(() => import('./components/modals/DataImportWizardModal'));
 
@@ -85,13 +87,15 @@ export default function GachaAnalyzer() {
 
   // 本地 UI 状态（仍然使用 useState）
 
-  // UX-006: 通知气泡状态 - 使用 Hook
+  // UX-006: 通知气泡状态  // 0.1 导航与通知关联 Hook
   const {
     hasNewAnnouncement,
     setHasNewAnnouncement,
     unreadTicketsCount,
     setUnreadTicketsCount,
   } = useNotificationBadges();
+
+  const [showNewsModal, setShowNewsModal] = useState(false);
 
   // 0.2 通用弹窗
   const { toasts, showToast, removeToast } = useToast();
@@ -482,6 +486,16 @@ export default function GachaAnalyzer() {
         onMarkAllRead={markAllDurableNotificationsRead}
         onDismiss={dismissDurableNotification}
         onClearRead={clearReadDurableNotifications}
+        onOpenSettings={() => navigateToTab('settings')}
+        onOpenNews={() => setShowNewsModal(true)}
+        hasNewAnnouncement={hasNewAnnouncement}
+      />
+
+      <NewsModal
+        open={showNewsModal}
+        onClose={() => setShowNewsModal(false)}
+        hasNewAnnouncement={hasNewAnnouncement}
+        setHasNewAnnouncement={setHasNewAnnouncement}
       />
 
       <style>{`

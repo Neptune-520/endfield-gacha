@@ -13,6 +13,8 @@ const SettingsPanel = lazy(() => import('../SettingsPanel'));
 const DeveloperApiDocsPage = lazy(() => import('../docs/DeveloperApiDocsPage'));
 const AboutPanel = lazy(() => import('../AboutPanel'));
 const TicketPanel = lazy(() => import('../TicketPanel'));
+const FriendLinksPage = lazy(() => import('../links/FriendLinksPage'));
+const RoadmapPage = lazy(() => import('../roadmap/RoadmapPage'));
 
 function TabPanelFallback({ label = '正在加载模块...' }) {
   return (
@@ -147,6 +149,22 @@ export default function DesktopAppRoutes({
               showToast={showToast}
               addDurableNotification={addDurableNotification}
             />
+          </Suspense>
+        }
+      />
+      <Route
+        path="links"
+        element={
+          <Suspense fallback={<TabPanelFallback label={tt('正在加载友情链接...', 'Loading links...')} />}>
+            <FriendLinksPage />
+          </Suspense>
+        }
+      />
+      <Route
+        path="roadmap"
+        element={
+          <Suspense fallback={<TabPanelFallback label={tt('正在加载开发路线...', 'Loading roadmap...')} />}>
+            <RoadmapPage />
           </Suspense>
         }
       />

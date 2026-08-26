@@ -28,11 +28,9 @@ import CountdownTimer from './CountdownTimer';
 import HomecomingPreviewCard from './HomecomingPreviewCard';
 import HomeAnnouncementContent from './AnnouncementContent';
 import CollapsibleContent from './CollapsibleContent';
-import HomeFriendlyLinksCard from './FriendlyLinksCard';
 import GameAnnouncementFeed from './GameAnnouncementFeed';
 import GuideCard from './GuideCard';
 import PoolMechanicsCard from './PoolMechanicsCard';
-import RoadmapCard from './RoadmapCard';
 import HomeRotationScheduleCard from './RotationScheduleCard';
 import SummerLotteryBanner from './SummerLotteryBanner';
 import DonationThanksCard from '../donations/DonationThanksCard.jsx';
@@ -192,7 +190,6 @@ const HomePage = React.memo(() => {
 
   const [showPoolMechanics, setShowPoolMechanics] = useState(!initialCollapseState.poolMechanics);
   const [showGuide, setShowGuide] = useState(!initialCollapseState.guide);
-  const [showRoadmap, setShowRoadmap] = useState(!initialCollapseState.roadmap);
   const [showUpdateAnnouncement, setShowUpdateAnnouncement] = useState(
     hasAnnouncementUpdate ? true : !initialCollapseState.announcement
   );
@@ -211,14 +208,6 @@ const HomePage = React.memo(() => {
     setShowGuide((prev) => {
       const next = !prev;
       setHomeCollapseState('guide', !next);
-      return next;
-    });
-  }, []);
-
-  const handleToggleRoadmap = useCallback(() => {
-    setShowRoadmap((prev) => {
-      const next = !prev;
-      setHomeCollapseState('roadmap', !next);
       return next;
     });
   }, []);
@@ -555,16 +544,10 @@ const HomePage = React.memo(() => {
 
         <HomeRotationScheduleCard poolSchedule={poolSchedule} versionSections={poolScheduleVersionSections} now={now} />
 
-        <div className="grid grid-cols-1 xl:grid-cols-[1fr_1.3fr] gap-6">
-          <HomeFriendlyLinksCard />
-
-          <div className="flex h-full flex-col">
-            <HomecomingPreviewCard
-              targetDate={nextVersionTargetDate}
-              title={nextVersionCountdownTitle}
-            />
-          </div>
-        </div>
+        <HomecomingPreviewCard
+          targetDate={nextVersionTargetDate}
+          title={nextVersionCountdownTitle}
+        />
       </div>
 
       <GuideCard isOpen={showGuide} onToggle={handleToggleGuide} />
@@ -573,7 +556,6 @@ const HomePage = React.memo(() => {
         onToggle={handleTogglePoolMechanics}
         currentUpInfo={currentUpInfo}
       />
-      <RoadmapCard isOpen={showRoadmap} onToggle={handleToggleRoadmap} />
     </div>
   );
 });

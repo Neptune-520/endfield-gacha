@@ -21,6 +21,14 @@ vi.mock('../../../services/powChallengeService.js', () => ({
   createAuthPowChallenge: vi.fn(),
 }));
 
+vi.mock('../../../utils/powChallengeCore.js', async () => {
+  const actual = await vi.importActual('../../../utils/powChallengeCore.js');
+  return {
+    ...actual,
+    shouldPreferPowCaptcha: vi.fn(() => false),
+  };
+});
+
 const CHALLENGE = {
   action: 'register',
   algorithm: 'sha256-chain-v1',
