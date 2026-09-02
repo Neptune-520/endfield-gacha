@@ -17,10 +17,15 @@ export default function SummerLotteryWidget() {
     });
   }, []);
 
-  // 2. 收起状态：紧贴屏幕右侧边缘、长比高窄、竖着的长方形悬浮标签
+  const handleClose = useCallback(() => {
+    setIsOpen(false);
+    setHomeCollapseState('lotteryDrawerOpen', false);
+  }, []);
+
+  // 2. 收起状态：紧贴屏幕右侧边缘、长比高窄、竖着的长方形悬浮标签 (最高层级 z-[200])
   if (!isOpen) {
     return (
-      <div className="fixed top-1/3 right-0 z-[85] animate-fade-in">
+      <div className="fixed top-1/3 right-0 z-[200] animate-fade-in">
         <button
           type="button"
           onClick={handleToggleOpen}
@@ -37,38 +42,48 @@ export default function SummerLotteryWidget() {
     );
   }
 
-  // 3. 展开状态：横着的长方形面板，保留原始完整 Banner 样式，不切割不扭曲
+  // 3. 展开状态：加宽横向长方形大面板 + 最高 z-[200] 层级 + 深色半透明 Backdrop 防背景透光
   return (
-    <div className="fixed top-24 sm:top-28 right-3 sm:right-6 z-[85] w-[calc(100vw-1.5rem)] sm:w-[680px] lg:w-[820px] max-h-[85vh] flex flex-col rounded-2xl bg-white/95 dark:bg-zinc-900/95 backdrop-blur-2xl border border-amber-500/50 dark:border-amber-500/40 shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden animate-slide-in-right transition-all duration-300">
-      {/* 顶部 Header 标题与收起关按钮 */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-gradient-to-r from-amber-500/15 via-amber-500/10 to-transparent border-b border-amber-200/80 dark:border-amber-900/40 shrink-0">
-        <div className="flex items-center gap-2">
-          <div className="p-1.5 bg-amber-500 text-slate-950 rounded-lg shrink-0">
-            <Gift size={16} />
+    <>
+      {/* 背景遮罩层：防止背景 Banner 文字穿透 */}
+      <div
+        onClick={handleClose}
+        className="fixed inset-0 bg-black/40 backdrop-blur-xs z-[190] animate-fade-in cursor-pointer"
+      />
+
+      {/* 浮窗主卡片 (最高 z-[200] 层级，宽度增加至 1060px 充裕横向延伸) */}
+      <div className="fixed top-20 sm:top-24 right-3 sm:right-6 lg:right-10 z-[200] w-[calc(100vw-1.5rem)] sm:w-[840px] md:w-[960px] lg:w-[1060px] max-w-[1080px] max-h-[88vh] flex flex-col rounded-2xl bg-white dark:bg-zinc-900 border-2 border-amber-500/70 shadow-[0_25px_70px_rgba(0,0,0,0.5)] overflow-hidden animate-slide-in-right transition-all duration-300">
+        
+        {/* 顶部 Header 标题栏 */}
+        <div className="flex items-center justify-between px-5 py-3 bg-gradient-to-r from-amber-500/20 via-amber-500/10 to-zinc-100 dark:to-zinc-800 border-b border-amber-300/60 dark:border-amber-900/60 shrink-0">
+          <div className="flex items-center gap-2.5">
+            <div className="p-1.5 bg-amber-500 text-slate-950 rounded-lg shrink-0 shadow-sm">
+              <Gift size={18} />
+            </div>
+            <div>
+              <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-zinc-100 flex items-center gap-2">
+                <span>夏日特别抽奖福利</span>
+                <Sparkles size={14} className="text-amber-500 animate-pulse" />
+              </h3>
+            </div>
           </div>
-          <div>
-            <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-zinc-100 flex items-center gap-1.5">
-              <span>夏日特别抽奖福利</span>
-              <Sparkles size={13} className="text-amber-500" />
-            </h3>
-          </div>
+
+          <button
+            type="button"
+            onClick={handleClose}
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-700 dark:text-zinc-200 bg-zinc-200/80 dark:bg-zinc-800 hover:bg-amber-400 hover:text-slate-950 dark:hover:bg-amber-400 dark:hover:text-slate-950 transition-colors cursor-pointer"
+            title="收起浮窗"
+          >
+            <span>收起浮窗</span>
+            <X size={16} />
+          </button>
         </div>
 
-        <button
-          type="button"
-          onClick={handleToggleOpen}
-          className="flex items-center gap-1 px-2 py-1 rounded-md text-xs font-bold text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-zinc-100 hover:bg-amber-200/60 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
-          title="收起浮窗"
-        >
-          <span>收起</span>
-          <ChevronRight size={16} />
-        </button>
+        {/* 横向 Banner 充裕完整展示区 */}
+        <div className="p-4 sm:p-5 overflow-x-auto overflow-y-auto bg-slate-50/50 dark:bg-zinc-950/40">
+          <SummerLotteryBanner compact={false} />
+        </div>
       </div>
-
-      {/* 横向 Banner 完整展示区 (使用 compact={false} 保留原始横向布局) */}
-      <div className="p-4 overflow-x-auto overflow-y-auto">
-        <SummerLotteryBanner compact={false} />
-      </div>
-    </div>
+    </>
   );
 }

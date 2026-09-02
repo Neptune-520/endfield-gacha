@@ -420,9 +420,23 @@
 3. **展开状态（原生横向大 Banner 浮窗）**：
    - 展开浮窗扩展为大尺寸横向长方形（`w-[680px]` / `lg:w-[820px]`），内部挂载 `compact={false}` 的原生横向 `SummerLotteryBanner`，完全保留合作 Logo、奖品细节与完整美术效果。
 
+---
+
+## 变更 23：提高 SummerLotteryWidget 浮窗层级并拉长横向容器宽度
+
+### 1. 修改背景与目的
+为了解决抽奖弹窗展开时会被 Banner 标题或底层元素透过遮挡的问题，将其置于最高 `z-[200]` 层级并加入高透明度磨砂 Backdrop 遮罩；同时将展开容器宽度拉长至 `1060px`，确保所有活动文本与横向 Banner 元素在一行完整伸展不折行。
+
+### 2. 具体修改内容
+1. **提升图层 z-index 至 highest 顶层**：
+   - 将悬浮抽奖组件的 z-index 提升至 `z-[200]`，同时在展开时加入 `z-[190]` 的防穿透黑色磨砂遮罩（`bg-black/40 backdrop-blur-xs`），彻底隔离底层页面文字。
+2. **容器横向宽幅拉长**：
+   - 将展开窗口容器宽度提升至 `lg:w-[1060px] max-w-[1080px]`，为 `SummerLotteryBanner` 提供完全充裕的横向展示空间，消除文字被迫换行的问题。
+
 ### 3. 受影响文件
-- `[MODIFY]` `src/components/home/SummerLotteryWidget.jsx` (更新默认收缩、竖长条标签与横向大 Banner 展开)
+- `[MODIFY]` `src/components/home/SummerLotteryWidget.jsx` (提高 z-index 至 z-[200] 并拉长横向宽度至 1060px)
 - `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
 
 
 
