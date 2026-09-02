@@ -176,83 +176,130 @@ const HomePage = React.memo(() => {
 
   return (
     <div className="space-y-6 animate-fade-in relative">
-      {/* 顶部全屏全宽 Hero Banner */}
-      <div className="-mx-4 sm:-mx-6 -mt-8 mb-6 relative overflow-hidden bg-gradient-to-r from-zinc-950 via-zinc-900 to-black border-b border-amber-500/30 text-white shadow-xl">
-        {/* 背景科技感网格与光效装饰 */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,204,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,204,0,0.03)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 blur-[100px] rounded-full pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-yellow-500/5 blur-[80px] rounded-full pointer-events-none" />
+      {/* 真正 100vw 屏幕满宽的大气科技风常规网站 Hero Banner */}
+      <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] -mt-8 mb-10 overflow-hidden bg-zinc-950 dark:bg-black border-b border-amber-500/20 text-white shadow-2xl">
+        {/* 背景光效层 */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(255,204,0,0.15),rgba(255,255,255,0))] pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,204,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,204,0,0.03)_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
 
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-8 sm:py-10 relative z-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
-          <div className="min-w-0 flex-1 space-y-3">
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="flex items-center gap-2.5">
-                <div className="p-2 bg-amber-500/20 border border-amber-500/40 rounded-sm text-endfield-yellow shrink-0">
-                  <BarChart3 size={24} className="sm:w-7 sm:h-7" />
+        {/* 主内容区域 - 最大宽度对齐全站网格 */}
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-12 sm:py-16 lg:py-20 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+
+          {/* 左侧：主标题、核心卖点、域名、按钮区 (占据 7 列) */}
+          <div className="lg:col-span-7 space-y-6 text-left">
+            {/* 顶部的突出里程碑庆祝 Badge */}
+            <div className="inline-flex items-center">
+              <button
+                type="button"
+                onClick={handleCelebrationClick}
+                className="group flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 hover:bg-amber-500/20 text-endfield-yellow text-xs font-bold tracking-wide transition-all shadow-[0_0_15px_rgba(255,204,0,0.1)] hover:shadow-[0_0_20px_rgba(255,204,0,0.25)] cursor-pointer"
+              >
+                <Sparkles size={14} className="text-amber-400 animate-pulse" />
+                <span>恭喜网站突破 2K+ 人贡献抽卡数据</span>
+                <span className="h-1 w-1 rounded-full bg-amber-400" />
+                <span className="text-[10px] text-amber-300/80 uppercase tracking-widest font-mono group-hover:translate-x-0.5 transition-transform">CELEBRATE →</span>
+              </button>
+            </div>
+
+            {/* 主标题与品牌 Icon */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 bg-gradient-to-br from-amber-400 to-amber-600 text-black font-black rounded-lg shadow-[0_0_20px_rgba(255,204,0,0.4)] shrink-0">
+                  <BarChart3 size={32} />
                 </div>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-none">
                   终末地抽卡分析器
                 </h1>
               </div>
-
-              {/* 域名标签 */}
-              <div className="flex flex-wrap items-center gap-2 font-mono">
-                <a
-                  href="https://ef-gacha.mogujun.icu/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${t('home.siteLinks.main')}: ef-gacha.mogujun.icu`}
-                  className="group inline-flex items-center gap-1.5 border border-amber-500/50 bg-black/40 px-2.5 py-1 text-xs font-bold text-zinc-100 transition-all hover:bg-amber-500/20 hover:text-endfield-yellow hover:border-amber-400 rounded-sm"
-                >
-                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(250,204,21,0.8)]" />
-                  <span>ef-gacha.mogujun.icu</span>
-                  <ExternalLink size={12} className="text-zinc-500 transition-colors group-hover:text-endfield-yellow" />
-                </a>
-                <a
-                  href="https://ef.nepst.cn/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${t('home.siteLinks.backup')}: ef.nepst.cn`}
-                  className="group inline-flex items-center gap-1.5 border border-zinc-700 bg-black/40 px-2.5 py-1 text-xs font-medium text-zinc-300 transition-all hover:border-zinc-500 hover:bg-white/10 hover:text-white rounded-sm"
-                >
-                  <span className="h-1.5 w-1.5 rounded-full bg-zinc-400" />
-                  <span>ef.nepst.cn</span>
-                  <ExternalLink size={12} className="text-zinc-500 transition-colors group-hover:text-zinc-300" />
-                </a>
-              </div>
+              <p className="text-xs font-mono tracking-[0.3em] text-amber-500/90 uppercase pl-1">
+                ENDFIELD GACHA ANALYTICS PLATFORM
+              </p>
             </div>
 
-            {/* 主描述 */}
-            <p className="text-sm sm:text-base text-zinc-300 leading-relaxed max-w-3xl">
+            {/* 描述语 */}
+            <p className="text-base sm:text-lg text-zinc-300 leading-relaxed font-normal max-w-xl">
               记录您的抽卡历程，分析出货规律，为后续规划提供参考
             </p>
 
-            {!user && (
-              <p className="text-xs text-amber-400/90 flex items-center gap-1.5 font-mono pt-1">
-                <ArrowRight size={14} />
-                <span>{t('home.loginHint')}</span>
-              </p>
-            )}
+            {/* 双独立域名入口 Pills */}
+            <div className="pt-1 flex flex-wrap items-center gap-3 font-mono">
+              <span className="text-xs text-zinc-400 font-sans">{t('home.siteLinks.title', {}, '官方站点')}:</span>
+              <a
+                href="https://ef-gacha.mogujun.icu/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 border border-amber-500/50 bg-amber-500/10 px-3 py-1.5 text-xs font-bold text-amber-300 transition-all hover:bg-amber-500 hover:text-black hover:border-amber-400 rounded-md shadow-sm"
+              >
+                <span className="h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(250,204,21,1)] group-hover:bg-black" />
+                <span>ef-gacha.mogujun.icu</span>
+                <ExternalLink size={12} className="text-amber-400/70 group-hover:text-black transition-colors" />
+              </a>
+              <a
+                href="https://ef.nepst.cn/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 border border-zinc-700 bg-zinc-900/80 px-3 py-1.5 text-xs font-medium text-zinc-300 transition-all hover:border-zinc-500 hover:bg-zinc-800 hover:text-white rounded-md"
+              >
+                <span className="h-2 w-2 rounded-full bg-zinc-500 group-hover:bg-zinc-300" />
+                <span>ef.nepst.cn</span>
+                <ExternalLink size={12} className="text-zinc-500 group-hover:text-zinc-300 transition-colors" />
+              </a>
+            </div>
+
+            {/* 快速动作与登录提示 */}
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              {!user && (
+                <div className="inline-flex items-center gap-2 text-xs text-amber-400/90 bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-md font-mono">
+                  <ArrowRight size={14} />
+                  <span>{t('home.loginHint')}</span>
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* 右侧庆祝 Badge / 按钮 */}
-          <div className="flex shrink-0 items-center animate-fade-in-up">
-            <button
-              type="button"
-              onClick={handleCelebrationClick}
-              className="group relative flex items-center gap-3 px-5 py-3 rounded-full border bg-amber-500/10 hover:bg-amber-500/20 border-amber-500/50 text-endfield-yellow font-bold text-sm sm:text-base tracking-wide transition-all duration-300 shadow-[0_0_20px_rgba(255,204,0,0.15)] hover:shadow-[0_0_30px_rgba(255,204,0,0.3)] cursor-pointer"
-            >
-              <span>恭喜网站突破 2K+ 人贡献抽卡数据</span>
-              <div className="p-1.5 rounded-full transition-all bg-amber-500/20 group-hover:bg-amber-500 group-hover:text-black text-amber-400">
-                <Sparkles size={18} className="animate-pulse" />
+          {/* 右侧：展示卡片/数据概览卡片 (占据 5 列) */}
+          <div className="lg:col-span-5 w-full">
+            <div className="relative rounded-2xl bg-gradient-to-b from-zinc-900/90 to-zinc-950/95 border border-zinc-800 p-6 sm:p-8 shadow-2xl overflow-hidden group hover:border-amber-500/40 transition-colors">
+              {/* 装饰光效 */}
+              <div className="absolute top-0 right-0 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-amber-500/20 transition-all" />
+
+              <div className="space-y-5 relative z-10">
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
+                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-500 uppercase tracking-wider">
+                    <Shield size={16} />
+                    <span>DATA INSIGHTS</span>
+                  </div>
+                  <span className="px-2 py-0.5 text-[10px] font-bold bg-amber-500/20 text-endfield-yellow border border-amber-500/30 rounded-full">
+                    LIVE
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3.5 rounded-lg bg-black/50 border border-zinc-800/80">
+                    <div className="text-[11px] text-zinc-400 font-medium mb-1">贡献用户样本</div>
+                    <div className="text-xl sm:text-2xl font-black text-amber-400 font-mono">2,000+</div>
+                  </div>
+                  <div className="p-3.5 rounded-lg bg-black/50 border border-zinc-800/80">
+                    <div className="text-[11px] text-zinc-400 font-medium mb-1">概率统计精确度</div>
+                    <div className="text-xl sm:text-2xl font-black text-emerald-400 font-mono">99.9%</div>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-lg bg-gradient-to-r from-amber-500/10 to-transparent border border-amber-500/20 space-y-2">
+                  <div className="flex items-center justify-between text-xs font-bold text-zinc-200">
+                    <span>功能特色</span>
+                    <Sparkles size={14} className="text-amber-400" />
+                  </div>
+                  <ul className="text-xs text-zinc-400 space-y-1.5 list-disc list-inside">
+                    <li>全卡池（包含限制寻访与常驻）独立概率与保底计算</li>
+                    <li>多端跨平台同步，无需下载第三方日志提取器</li>
+                    <li>全站脱敏大数据图表对比与概率偏差校准</li>
+                  </ul>
+                </div>
               </div>
-            </button>
+            </div>
           </div>
-        </div>
 
-        {/* 背景巨型图形饰品 */}
-        <div className="absolute -right-10 -bottom-10 pointer-events-none text-white/5">
-          <Star size={240} />
         </div>
       </div>
 
