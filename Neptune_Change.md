@@ -319,8 +319,8 @@
    - **右侧侧边卡片**：集成简洁的数据特点与分析优势看板。
 
 ### 3. 受影响文件
-- `[NEW]` `src/components/home/HomeHeroBanner.jsx` (新建 100% 屏幕满宽白底 Hero Banner 组件)
-- `[MODIFY]` `src/GachaAnalyzer.jsx` (在最顶层 Shell 挂载 HomeHeroBanner 实现真正全宽)
+- `[NEW]` `src/components/home/HomeHeroBanner.jsx` (新建 100% 屏幕满屏全高白底 Hero Cover 组件)
+- `[MODIFY]` `src/GachaAnalyzer.jsx` (在最顶层 Shell 挂载 HomeHeroBanner 实现真正全宽全屏)
 - `[MODIFY]` `src/components/home/HomePage.jsx` (清理旧版内嵌 Hero Banner)
 - `[MODIFY]` `Neptune_Change.md` (更新变更日志)
 
