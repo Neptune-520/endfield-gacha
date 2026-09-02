@@ -2,9 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { BarChart3, LogIn, LogOut, Settings, Info, CloudOff, MessageSquare, Activity, ChevronDown } from 'lucide-react';
 import { NotificationBadge } from '../ui';
-import HeaderPoolTimeInfo from './HeaderPoolTimeInfo';
 import { isSupabaseConfigured } from '../../supabaseClient';
-import { isContributorDemoModeEnabled } from '../../dev/contributorDemoMode.js';
 import { buildUsernameHandle } from '../../utils/usernameValidation.js';
 import { STORAGE_KEYS, markAsViewed } from '../../utils';
 import LocaleSwitcher from '../common/LocaleSwitcher.jsx';
@@ -23,7 +21,7 @@ const NavTab = ({ id, label, showDot, onClick, className = '', activeTab, setAct
     <NotificationBadge showDot={showDot} className="h-full flex shrink-0">
       <button
         onClick={onClick || fallbackClick}
-        className={`h-full px-4 sm:px-6 flex items-center text-xs sm:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-300 relative group ${isActive
+        className={`h-full min-w-[76px] sm:min-w-[92px] px-3 sm:px-4 flex items-center justify-center text-xs sm:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-300 relative group ${isActive
           ? 'text-amber-600 dark:text-endfield-yellow'
           : 'text-slate-500 dark:text-zinc-400 hover:text-slate-800 dark:hover:text-zinc-200 hover:bg-slate-50 dark:hover:bg-white/5'
           } ${className}`}
@@ -76,7 +74,7 @@ const NavDropdown = ({ label, active, showDot, items }) => {
         <button
           type="button"
           onClick={() => setOpen((prev) => !prev)}
-          className={`h-full px-4 sm:px-6 flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-300 relative group cursor-pointer ${active
+          className={`h-full min-w-[76px] sm:min-w-[92px] px-3 sm:px-4 flex items-center justify-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-300 relative group cursor-pointer ${active
             ? 'text-amber-600 dark:text-endfield-yellow'
             : 'text-slate-500 dark:text-zinc-400 hover:text-slate-800 dark:hover:text-zinc-200 hover:bg-slate-50 dark:hover:bg-white/5'
             }`}
@@ -97,7 +95,7 @@ const NavDropdown = ({ label, active, showDot, items }) => {
         </button>
 
         {open && (
-          <div className="absolute top-[calc(100%-2px)] left-1/2 -translate-x-1/2 z-[100] w-28 sm:w-32 py-1.5 border border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md shadow-2xl rounded-b-sm">
+          <div className="absolute top-[calc(100%-2px)] left-1/2 -translate-x-1/2 z-[100] w-28 sm:w-32 py-1.5 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-2xl rounded-b-sm">
             {items.map((item, idx) => (
               <button
                 key={item.id || idx}
@@ -150,6 +148,18 @@ export default function AppHeader({
   const { t } = useI18n();
   const navigate = useNavigate();
   const navScrollRef = useHorizontalWheelScroll();
+
+  const [isScrolled, setIsScrolled] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const handleTabChange = (tab) => {
     if (typeof setActiveTab === 'function') {
       setActiveTab(tab);
@@ -157,9 +167,15 @@ export default function AppHeader({
   };
 
   return (
-    <div className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 sticky top-0 z-40 shadow-sm transition-colors duration-300">
+    <div className={`sticky top-0 z-40 transition-all duration-300 ${
+      isScrolled
+        ? 'bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 shadow-sm'
+        : 'bg-transparent border-b border-transparent shadow-none'
+    }`}>
       {/* 背景装饰网格 */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none"></div>
+      <div className={`absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none transition-opacity duration-300 ${
+        isScrolled ? 'opacity-100' : 'opacity-0'
+      }`}></div>
 
       <div className="w-full max-w-[1600px] mx-auto h-14 sm:h-16 flex items-center justify-between relative z-10 px-3 sm:px-4">
 
@@ -207,22 +223,25 @@ export default function AppHeader({
             }}
           />
 
-          {/* 2. 分析 (全站统计、卡池信息、卡池分析) */}
+          {/* 2. 全站统计 */}
+          <NavTab
+            id="summary"
+            label={t('nav.menu.globalStats', {}, '全站统计')}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            onClick={() => handleTabChange('summary')}
+          />
+
+          {/* 3. 分析 (卡池信息、卡池分析) */}
           <NavDropdown
             label={t('nav.menu.analysis', {}, '分析')}
-            active={activeTab === 'summary' || activeTab === 'dashboard'}
+            active={activeTab === 'poolInfo' || activeTab === 'dashboard'}
             items={[
               {
-                id: 'summary',
-                label: t('nav.menu.globalStats', {}, '全站统计'),
-                active: activeTab === 'summary',
-                onClick: () => handleTabChange('summary'),
-              },
-              {
-                id: 'dashboard-info',
+                id: 'pool-info',
                 label: t('nav.menu.poolInfo', {}, '卡池信息'),
-                active: activeTab === 'dashboard',
-                onClick: () => handleTabChange('dashboard'),
+                active: activeTab === 'poolInfo',
+                onClick: () => handleTabChange('poolInfo'),
               },
               {
                 id: 'dashboard-analysis',
@@ -342,7 +361,7 @@ export default function AppHeader({
 
           {/* 登录/用户区域 */}
           <div className="flex items-center h-full pl-2 sm:pl-3 ml-1 sm:ml-2 border-l border-zinc-200 dark:border-zinc-800/50">
-            {(isSupabaseConfigured() || isContributorDemoModeEnabled()) ? (
+            {isSupabaseConfigured() ? (
               user ? (
                 <div className="flex items-center gap-2 sm:gap-3 group">
                   <div className="hidden lg:flex flex-col items-end justify-center">
