@@ -349,9 +349,25 @@
 1. **Banner 添加“全站统计”按钮**：
    - 在 `src/components/home/HomeHeroBanner.jsx` 的核心按钮区中，为“快速开始”按钮右侧加入 `<Link to="/summary">` 跳转按钮，配备 `PieChart` 图标与高亮 Hover 视效。
 
+---
+
+## 变更 18：重构首页下半部分四区块为双列 Dashboard 响应式网格
+
+### 1. 修改背景与目的
+为了解决首页下方的四个区块（抽奖区块、赞助区块、卡池倒计时区块、官方活动/版本预告区块）单列平铺堆叠、缺乏视觉层级与审美单调的问题，将其重构为左右双列响应式 Dashboard 布局，突出主次层级。
+
+### 2. 具体修改内容
+1. **左侧核心栏 (7/12 列)**：
+   - 包含“卡池倒计时与公测预告”标题区。
+   - 顺序组合渲染**主限定寻访倒计时**、**次级/额外寻访倒计时**以及**官方版本/公测预告卡片**。
+2. **右侧社区与支持栏 (5/12 列)**：
+   - 包含“活动与赞助支持”标题区。
+   - 顺序组合渲染**夏日抽奖活动 Banner** (`SummerLotteryBanner`) 与**赞助致谢卡片** (`DonationThanksCard`)。
+
 ### 3. 受影响文件
-- `[MODIFY]` `src/components/home/HomeHeroBanner.jsx` (添加“全站统计”跳转按钮)
+- `[MODIFY]` `src/components/home/HomePage.jsx` (重构首页下方四区块为双列 Dashboard 响应式网格)
 - `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
 
 
 

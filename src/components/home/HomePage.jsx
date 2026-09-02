@@ -5,6 +5,7 @@ import {
   BarChart3,
   Bell,
   ChevronUp,
+  Clock,
   ExternalLink,
   Shield,
   Sparkles,
@@ -175,47 +176,76 @@ const HomePage = React.memo(() => {
   }, []);
 
   return (
-    <div className="space-y-6 animate-fade-in relative">
+    <div className="space-y-8 animate-fade-in relative">
+      {/* 首页下方 2-Column 布局网格 */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        {/* 左侧 (7/12 列)：卡池倒计时与版本预告 */}
+        <div className="lg:col-span-7 space-y-6">
+          <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-3">
+            <div className="flex items-center gap-2 text-sm font-bold text-slate-800 dark:text-zinc-100">
+              <div className="p-1.5 bg-amber-500/15 text-amber-500 rounded-md">
+                <Clock size={18} />
+              </div>
+              <span>卡池倒计时与公测预告</span>
+            </div>
+            <span className="text-[11px] font-mono text-slate-400 dark:text-zinc-500">REALTIME TIMELINE</span>
+          </div>
 
+          <div className="space-y-4">
+            <div className="relative">
+              {countdowns.main && (
+                <CountdownTimer
+                  targetDate={countdowns.main.targetDate}
+                  title={countdowns.main.title}
+                  subTitle={countdowns.main.subTitle}
+                  link={null}
+                  characterName={countdowns.main.name}
+                  scheduleDate={countdowns.main.scheduleDate || countdowns.main.startDate}
+                />
+              )}
+            </div>
 
-      <SummerLotteryBanner />
+            {countdowns.secondary && (
+              <div className="relative">
+                <CountdownTimer
+                  targetDate={countdowns.secondary.targetDate}
+                  title={countdowns.secondary.title}
+                  subTitle={countdowns.secondary.subTitle}
+                  link={null}
+                  characterName={countdowns.secondary.poolType === 'limited' ? countdowns.secondary.name : null}
+                  featuredCharacterNames={countdowns.secondary.poolType === 'extra' ? countdowns.secondary.featuredNames : []}
+                  bgImage={countdowns.secondary.poolType === 'extra' ? null : countdowns.secondary.backgroundImage}
+                  scheduleDate={countdowns.secondary.scheduleDate || countdowns.secondary.startDate}
+                />
+              </div>
+            )}
 
-      <DonationThanksCard />
-
-
-
-      <div className="flex flex-col gap-4">
-        <div className="relative">
-          {countdowns.main && (
-            <CountdownTimer
-              targetDate={countdowns.main.targetDate}
-              title={countdowns.main.title}
-              subTitle={countdowns.main.subTitle}
-              link={null}
-              characterName={countdowns.main.name}
-              scheduleDate={countdowns.main.scheduleDate || countdowns.main.startDate}
-            />
-          )}
-        </div>
-        {countdowns.secondary && (
-          <div className="relative">
-            <CountdownTimer
-              targetDate={countdowns.secondary.targetDate}
-              title={countdowns.secondary.title}
-              subTitle={countdowns.secondary.subTitle}
-              link={null}
-              characterName={countdowns.secondary.poolType === 'limited' ? countdowns.secondary.name : null}
-              featuredCharacterNames={countdowns.secondary.poolType === 'extra' ? countdowns.secondary.featuredNames : []}
-              bgImage={countdowns.secondary.poolType === 'extra' ? null : countdowns.secondary.backgroundImage}
-              scheduleDate={countdowns.secondary.scheduleDate || countdowns.secondary.startDate}
+            <HomecomingPreviewCard
+              targetDate={nextVersionTargetDate}
+              title={nextVersionCountdownTitle}
             />
           </div>
-        )}
+        </div>
 
-        <HomecomingPreviewCard
-          targetDate={nextVersionTargetDate}
-          title={nextVersionCountdownTitle}
-        />
+        {/* 右侧 (5/12 列)：抽奖活动与致谢赞助 */}
+        <div className="lg:col-span-5 space-y-6">
+          <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-3">
+            <div className="flex items-center gap-2 text-sm font-bold text-slate-800 dark:text-zinc-100">
+              <div className="p-1.5 bg-amber-500/15 text-amber-500 rounded-md">
+                <Sparkles size={18} />
+              </div>
+              <span>活动与赞助支持</span>
+            </div>
+            <span className="text-[11px] font-mono text-slate-400 dark:text-zinc-500">COMMUNITY & EVENTS</span>
+          </div>
+
+          <div className="space-y-4">
+            <SummerLotteryBanner />
+            <DonationThanksCard />
+          </div>
+        </div>
+
       </div>
 
       <SecurityCommunityWidget />
