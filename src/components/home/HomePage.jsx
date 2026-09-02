@@ -177,7 +177,10 @@ const HomePage = React.memo(() => {
 
   return (
     <div className="space-y-8 animate-fade-in relative">
-      {/* 首页下方 2-Column 布局网格 */}
+      {/* 1. 抽奖 Banner 独占整行全宽展示（防止内容截断） */}
+      <SummerLotteryBanner />
+
+      {/* 2. 首页下方 2-Column 布局网格 */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* 左侧 (7/12 列)：卡池倒计时与版本预告 */}
@@ -228,20 +231,19 @@ const HomePage = React.memo(() => {
           </div>
         </div>
 
-        {/* 右侧 (5/12 列)：抽奖活动与致谢赞助 */}
+        {/* 右侧 (5/12 列)：赞助与开发支持 */}
         <div className="lg:col-span-5 space-y-6">
           <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-3">
             <div className="flex items-center gap-2 text-sm font-bold text-slate-800 dark:text-zinc-100">
               <div className="p-1.5 bg-amber-500/15 text-amber-500 rounded-md">
                 <Sparkles size={18} />
               </div>
-              <span>活动与赞助支持</span>
+              <span>赞助与开发支持</span>
             </div>
-            <span className="text-[11px] font-mono text-slate-400 dark:text-zinc-500">COMMUNITY & EVENTS</span>
+            <span className="text-[11px] font-mono text-slate-400 dark:text-zinc-500">SUPPORT</span>
           </div>
 
           <div className="space-y-4">
-            <SummerLotteryBanner />
             <DonationThanksCard />
           </div>
         </div>

@@ -364,9 +364,21 @@
    - 包含“活动与赞助支持”标题区。
    - 顺序组合渲染**夏日抽奖活动 Banner** (`SummerLotteryBanner`) 与**赞助致谢卡片** (`DonationThanksCard`)。
 
+---
+
+## 变更 19：抽奖活动 Banner 调整为独占整行全宽展示
+
+### 1. 修改背景与目的
+由于夏日抽奖活动 Banner (`SummerLotteryBanner`) 包含合作方 Logo、奖品日期与操作按钮等多项长布局信息，在窄列网格中容易造成文字被截断。现将其调整为独占一整行全宽展示，确保信息完整且视觉冲击力强。
+
+### 2. 具体修改内容
+1. **抽奖 Banner 独占整行**：
+   - 从 5 列右侧子网格中提取出 `SummerLotteryBanner`，放置在双列 Dashboard 网格的上方独占整行展现。
+
 ### 3. 受影响文件
-- `[MODIFY]` `src/components/home/HomePage.jsx` (重构首页下方四区块为双列 Dashboard 响应式网格)
+- `[MODIFY]` `src/components/home/HomePage.jsx` (抽奖 Banner 独占整行全宽展示)
 - `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
 
 
 
