@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BarChart3, ChevronDown, ExternalLink, Sparkles, Zap, PieChart } from 'lucide-react';
+import { ArrowRight, BarChart3, ChevronDown, ExternalLink, Sparkles, Zap, PieChart, Users } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useI18n } from '../../i18n/index.js';
 import GuideModal from '../modals/GuideModal.jsx';
@@ -73,7 +73,7 @@ export default function HomeHeroBanner({ user }) {
           记录您的抽卡历程，分析出货规律，为后续规划提供参考
         </p>
 
-        {/* 快速开始与全站统计按钮区 */}
+        {/* 快速开始、全站统计与加入Q群按钮区 */}
         <div className="pt-2 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           <button
             type="button"
@@ -93,6 +93,17 @@ export default function HomeHeroBanner({ user }) {
             <span>全站统计</span>
             <ArrowRight size={16} className="text-slate-400 dark:text-zinc-500 group-hover:translate-x-1 transition-transform" />
           </Link>
+
+          <a
+            href="https://qun.qq.com/universal-share/share?ac=1&authKey=r3FtI0ZzAJw2MT%2FEpjqgDk8i5TyQyhhMjE2mvpqFheRBHPf5JQOYdhZotuZ2n%2B87&busi_data=eyJncm91cENvZGUiOiIxMDgwOTgzMTg1IiwidG9rZW4iOiJvOG53QjhsOXBDNFJCVUYwNkVyanhkSkhONjA2RUF5SmhvNnIwR3BqL2MvYWRIeEp6bS9lUkcxRktkYm1ZMEJhIiwidWluIjoiMjY1NjQ3ODA5OSJ9&data=Q319gFfK4M_3rm8xSwwtsKbqOUyqJDPg6uiqtjyoM7yIhDxYYrM65vLb-laUAY4bvJDIM1PQRPKPFw00FdNeAQ&svctype=4&tempid=h5_group_info"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-2.5 px-6 py-3 rounded-xl border border-sky-300/80 dark:border-sky-800/80 bg-sky-50 dark:bg-sky-950/40 hover:bg-sky-100 dark:hover:bg-sky-900/60 text-sky-800 dark:text-sky-300 font-bold text-sm sm:text-base tracking-wide transition-all shadow-sm hover:shadow-md hover:scale-105 cursor-pointer"
+          >
+            <Users size={18} className="text-sky-500" />
+            <span>加入Q群</span>
+            <ExternalLink size={15} className="text-sky-500/70 group-hover:translate-x-0.5 transition-transform" />
+          </a>
         </div>
 
         {/* 官方站点双域名 Pills */}

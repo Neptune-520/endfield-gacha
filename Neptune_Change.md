@@ -477,10 +477,21 @@
 3. **移除调试面板**：
    - 从 `SummerLotteryWidget.jsx` 中完整清理 `Sliders` 调试组件与拉条 state，恢复干净优雅的正式发布版代码。
 
+---
+
+## 变更 27：首页 Hero Banner 核心区域添加“加入Q群”快捷按钮
+
+### 1. 修改背景与目的
+为了方便新老用户快速加入官方 QQ 交流与客服群，在首页全屏 Hero Banner 核心 CTA 按钮区域（“快速开始”与“全站统计”右侧）新增了“加入Q群”外部超链接按钮。
+
+### 2. 具体修改内容
+1. **Banner 添加“加入Q群”按钮**：
+   - 在 `src/components/home/HomeHeroBanner.jsx` 中，加入带有 `Users` Icon 与 `ExternalLink` 标识的“加入Q群”按钮，点击在后台新标签页直达 QQ 官方加群分享链接。
+
 ### 3. 受影响文件
-- `[MODIFY]` `src/components/home/SummerLotteryWidget.jsx` (锁定 1410px 宽度并移除调试控制栏)
-- `[MODIFY]` `src/components/home/SummerLotteryBanner.css` (锁定 30% 文字占比与 400px Banner 高度)
+- `[MODIFY]` `src/components/home/HomeHeroBanner.jsx` (添加“加入Q群”按钮与分享链接)
 - `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
 
 
 
