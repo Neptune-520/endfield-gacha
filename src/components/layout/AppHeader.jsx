@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { BarChart3, LogIn, LogOut, Settings, Info, CloudOff, MessageSquare, Activity, ChevronDown } from 'lucide-react';
 import { NotificationBadge } from '../ui';
 import { isSupabaseConfigured } from '../../supabaseClient';
+import { isContributorDemoModeEnabled } from '../../dev/contributorDemoMode.js';
 import { buildUsernameHandle } from '../../utils/usernameValidation.js';
 import { STORAGE_KEYS, markAsViewed } from '../../utils';
 import LocaleSwitcher from '../common/LocaleSwitcher.jsx';
@@ -361,7 +362,7 @@ export default function AppHeader({
 
           {/* 登录/用户区域 */}
           <div className="flex items-center h-full pl-2 sm:pl-3 ml-1 sm:ml-2 border-l border-zinc-200 dark:border-zinc-800/50">
-            {isSupabaseConfigured() ? (
+            {(isSupabaseConfigured() || isContributorDemoModeEnabled()) ? (
               user ? (
                 <div className="flex items-center gap-2 sm:gap-3 group">
                   <div className="hidden lg:flex flex-col items-end justify-center">
