@@ -338,9 +338,21 @@
 
 ### 3. 受影响文件
 - `[NEW]` `src/components/modals/GuideModal.jsx` (新建使用指南 Modal 弹窗组件)
-- `[MODIFY]` `src/components/home/HomeHeroBanner.jsx` (添加“快速开始”按钮并绑定弹窗)
-- `[MODIFY]` `src/components/home/HomePage.jsx` (从首页底部移除 GuideCard)
+---
+
+## 变更 17：顶部 Banner 添加“全站统计”快捷按钮
+
+### 1. 修改背景与目的
+为方便用户从首页 Banner 区域一键直达全服数据分析与统计视图，在“快速开始”按钮右侧新增了“全站统计”按钮，点击后自动跳转至 `/summary` 页面。
+
+### 2. 具体修改内容
+1. **Banner 添加“全站统计”按钮**：
+   - 在 `src/components/home/HomeHeroBanner.jsx` 的核心按钮区中，为“快速开始”按钮右侧加入 `<Link to="/summary">` 跳转按钮，配备 `PieChart` 图标与高亮 Hover 视效。
+
+### 3. 受影响文件
+- `[MODIFY]` `src/components/home/HomeHeroBanner.jsx` (添加“全站统计”跳转按钮)
 - `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
 
 
 

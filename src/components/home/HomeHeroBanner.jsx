@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { ArrowRight, BarChart3, ChevronDown, ExternalLink, Sparkles, Zap, BookOpen } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, BarChart3, ChevronDown, ExternalLink, Sparkles, Zap, PieChart } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useI18n } from '../../i18n/index.js';
 import GuideModal from '../modals/GuideModal.jsx';
@@ -72,8 +73,8 @@ export default function HomeHeroBanner({ user }) {
           记录您的抽卡历程，分析出货规律，为后续规划提供参考
         </p>
 
-        {/* 快速开始按钮区 */}
-        <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
+        {/* 快速开始与全站统计按钮区 */}
+        <div className="pt-2 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           <button
             type="button"
             onClick={() => setIsGuideModalOpen(true)}
@@ -83,6 +84,15 @@ export default function HomeHeroBanner({ user }) {
             <span>快速开始</span>
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </button>
+
+          <Link
+            to="/summary"
+            className="group flex items-center gap-2.5 px-6 py-3 rounded-xl border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-700 text-slate-800 dark:text-zinc-100 font-bold text-sm sm:text-base tracking-wide transition-all shadow-sm hover:shadow-md hover:scale-105 cursor-pointer"
+          >
+            <PieChart size={18} className="text-amber-500" />
+            <span>全站统计</span>
+            <ArrowRight size={16} className="text-slate-400 dark:text-zinc-500 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
 
         {/* 官方站点双域名 Pills */}
