@@ -22,6 +22,7 @@ import {
 } from './utils/gameAccountMetadata.js';
 import { useSummerLotterySsoContinuation } from './hooks/auth/useSummerLotterySsoContinuation.js';
 import ContributorDemoBanner from './components/dev/ContributorDemoBanner.jsx';
+import HomeHeroBanner from './components/home/HomeHeroBanner.jsx';
 import { isContributorDemoUser } from './dev/contributorDemoMode.js';
 import { useContributorDemoSandboxBridge } from './hooks/app/useContributorDemoSandboxBridge.js';
 
@@ -405,6 +406,8 @@ export default function GachaAnalyzer() {
       />
 
       <ContributorDemoBanner />
+
+      {activeTab === 'home' && <HomeHeroBanner user={user} />}
 
       <main className="w-full max-w-[1440px] mx-auto px-4 py-8">
         <DesktopAppRoutes

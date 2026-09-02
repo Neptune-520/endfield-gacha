@@ -302,8 +302,28 @@
    - **互动庆祝**：右侧突出展示`恭喜网站突破 2K+ 人贡献抽卡数据`粒子庆祝胶囊按钮，点击可触发全屏礼花粒子效果。
 
 ### 3. 受影响文件
-- `[MODIFY]` `src/components/home/HomePage.jsx` (重构顶部全屏全宽 Hero Banner)
+---
+
+## 变更 15：重构白底极简常规网站 Hero Banner 并置于应用全局最顶层容器
+
+### 1. 修改背景与目的
+为了彻底解决之前 Banner 受到 `<main className="max-w-[1440px]">` 局限无法真正 100% 填满屏幕宽度的结构问题，将 Hero Banner 抽离为独立的 `HomeHeroBanner` 组件，并直接挂载在 `GachaAnalyzer` 顶层 App Shell 容器上（位于 `AppHeader` 紧下方）。同时将背景重构为干净清爽的白底风格（`bg-white dark:bg-zinc-900`），符合常规现代化网站大 Banner 的高品质展示规范。
+
+### 2. 具体修改内容
+1. **架构层级调整实现真正全屏**：
+   - 新建 `src/components/home/HomeHeroBanner.jsx`。
+   - 在 `src/GachaAnalyzer.jsx` 中将 `HomeHeroBanner` 挂载在最外层 `app-shell` 容器，避开了 `main` 容器的 `max-w-[1440px]` 宽度约束，从而实现真正的 100% 满屏无横向滚动条全宽 Banner。
+2. **白底极简常规网站 Banner 视觉设计**：
+   - **配色方案**：采用极简纯白/深灰背景（`bg-white dark:bg-zinc-900`），顶部配有极细金色渐变光边与立体网格，清爽明亮。
+   - **包含内容**：包含“终末地抽卡分析器”、“ef-gacha.mogujun.icu”、“ef.nepst.cn”、“记录您的抽卡历程，分析出货规律，为后续规划提供参考”及“恭喜网站突破 2K+ 人贡献抽卡数据”的全部要素。
+   - **右侧侧边卡片**：集成简洁的数据特点与分析优势看板。
+
+### 3. 受影响文件
+- `[NEW]` `src/components/home/HomeHeroBanner.jsx` (新建 100% 屏幕满宽白底 Hero Banner 组件)
+- `[MODIFY]` `src/GachaAnalyzer.jsx` (在最顶层 Shell 挂载 HomeHeroBanner 实现真正全宽)
+- `[MODIFY]` `src/components/home/HomePage.jsx` (清理旧版内嵌 Hero Banner)
 - `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
 
 
 
