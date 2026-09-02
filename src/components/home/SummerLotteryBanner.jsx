@@ -7,14 +7,14 @@ import './SummerLotteryBanner.css';
 
 const LOTTERY_URL = String(import.meta.env.VITE_SUMMER_LOTTERY_URL || '/lottery').trim();
 
-export default function SummerLotteryBanner({ compact = false }) {
+export default function SummerLotteryBanner({ compact = false, className = '' }) {
   const { t } = useI18n();
   if (!LOTTERY_URL) return null;
 
   return (
     <a
       href={LOTTERY_URL}
-      className={`summer-lottery-banner group ${compact ? 'summer-lottery-banner--compact mb-6' : ''}`}
+      className={`summer-lottery-banner group ${compact ? 'summer-lottery-banner--compact mb-6' : ''} ${className}`}
       aria-label={t('home.summerLottery.open')}
     >
       <section className="summer-lottery-banner__info">

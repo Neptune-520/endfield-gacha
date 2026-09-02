@@ -448,10 +448,25 @@
 3. **窗口横向宽度扩至 1180px**：
    - 将展开面板宽度提升至 `lg:w-[1180px] max-w-[1200px]`。
 
+---
+
+## 变更 25：为 SummerLotteryWidget 增加可视化实时尺寸调试拉条控制面板
+
+### 1. 修改背景与目的
+为了方便在各种屏幕分辨率下精确定位完美的抽奖弹窗宽度、文字占比与高度，直接在抽奖弹窗顶部集成了“可视化实时尺寸调试拉条控制面板”，支持拖动拉条即时响应预览。
+
+### 2. 具体修改内容
+1. **实时调试拉条控制面板**：
+   - 包含**总宽度拉条**（700px - 1900px）、**文字栏占比拉条**（30% - 75%）以及 **Banner 最小高度拉条**（240px - 500px）。
+   - 拖动拉条即可在页面上实时缩放与调整 Banner 内部 CSS 网格占比，并清晰展示当前像素数值。
+2. **样式覆盖注入机制**：
+   - 在 `SummerLotteryBanner.jsx` 中新增 `className` 级联透传支持，在 `SummerLotteryWidget.jsx` 中通过动态 `<style>` 标签在拖动拉条时实时覆盖 `grid-template-columns` 与 `min-height`。
+
 ### 3. 受影响文件
-- `[MODIFY]` `src/components/home/SummerLotteryWidget.jsx` (使用 createPortal 挂载至 document.body 并分配 z-[99999])
-- `[MODIFY]` `src/components/home/SummerLotteryBanner.css` (提升左侧文字列占比至 48% 彻底解决文字重叠)
+- `[MODIFY]` `src/components/home/SummerLotteryWidget.jsx` (新增可视化实时尺寸调试拉条控制面板)
+- `[MODIFY]` `src/components/home/SummerLotteryBanner.jsx` (添加 className 样式覆盖支持)
 - `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
 
 
 
