@@ -402,10 +402,28 @@
    - **展开状态**：平滑向左滑出侧边悬浮面板，渲染精致紧凑的抽奖活动明细卡片（`SummerLotteryBanner`），并带有独立的向右收起按钮。
    - 自动在 `localStorage` 中记录并恢复用户的展开/收起偏好。
 
+---
+
+## 变更 22：优化 SummerLotteryWidget 默认收缩状态、竖长条收缩标签与横向完整 Banner 展开样式
+
+### 1. 修改背景与目的
+根据最新交互要求对右侧悬浮抽奖组件（`SummerLotteryWidget`）进行精确重构：
+1. 默认状态调整为全站进入即为收缩状态。
+2. 收缩状态改为紧贴右侧边缘的“竖向窄长方形”精美胶囊。
+3. 展开状态恢复为全宽“横向长方形”原生 Banner 样式，不裁切、不挤压。
+
+### 2. 具体修改内容
+1. **默认状态收缩化**：
+   - 将 `isOpen` 初始值调整为 `false`，确保默认进入网站时保持简洁收缩状态。
+2. **收缩状态（竖向长方形标签）**：
+   - 采用竖向文本（`writing-mode: vertical-rl`）、顶部跳动礼盒 Icon 与底部缩进箭头，构成贴合屏幕右侧边缘（`fixed top-1/3 right-0`）的精美竖向窄矩形按钮（`w-9 sm:w-10`）。
+3. **展开状态（原生横向大 Banner 浮窗）**：
+   - 展开浮窗扩展为大尺寸横向长方形（`w-[680px]` / `lg:w-[820px]`），内部挂载 `compact={false}` 的原生横向 `SummerLotteryBanner`，完全保留合作 Logo、奖品细节与完整美术效果。
+
 ### 3. 受影响文件
-- `[NEW]` `src/components/home/SummerLotteryWidget.jsx` (新建屏幕右侧边缘悬浮抽奖组件)
-- `[MODIFY]` `src/components/home/HomePage.jsx` (挂载 SummerLotteryWidget 悬浮组件)
+- `[MODIFY]` `src/components/home/SummerLotteryWidget.jsx` (更新默认收缩、竖长条标签与横向大 Banner 展开)
 - `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
 
 
 
