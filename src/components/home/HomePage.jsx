@@ -218,7 +218,6 @@ const HomePage = React.memo(() => {
         />
       </div>
 
-      <GuideCard isOpen={showGuide} onToggle={handleToggleGuide} />
       <SecurityCommunityWidget />
     </div>
   );

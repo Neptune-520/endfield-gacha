@@ -321,8 +321,27 @@
 ### 3. 受影响文件
 - `[NEW]` `src/components/home/HomeHeroBanner.jsx` (新建 100% 屏幕满屏全高白底 Hero Cover 组件)
 - `[MODIFY]` `src/GachaAnalyzer.jsx` (在最顶层 Shell 挂载 HomeHeroBanner 实现真正全宽全屏)
-- `[MODIFY]` `src/components/home/HomePage.jsx` (清理旧版内嵌 Hero Banner)
+---
+
+## 变更 16：顶部 Banner 添加“快速开始”按钮与使用指南弹窗重构
+
+### 1. 修改背景与目的
+为了使首页底部布局更清爽，同时方便新用户在 Banner 核心区域快速了解使用流程，移除了首页底部的静态《使用指南》展牌，并在顶部大 Banner 显眼位置添加了“快速开始”按钮，点击后直接弹出高品质的《使用指南》弹窗（`GuideModal`）。
+
+### 2. 具体修改内容
+1. **新建使用指南弹窗组件**：
+   - 新建 `src/components/modals/GuideModal.jsx`，以全屏 Modal 弹窗形式交互式渲染包含 STEP 01（账号注册与数据导入）、STEP 02（数据分析与统计）、STEP 03（实用工具与服务）在内的完整指引，支持一键快捷跳转。
+2. **Banner 挂载“快速开始”按钮**：
+   - 在 `src/components/home/HomeHeroBanner.jsx` 中添加黄黑亮色“快速开始”高吸引力按钮，点击触发 `GuideModal` 弹窗展示。
+3. **首页底部布局精简**：
+   - 从 `src/components/home/HomePage.jsx` 底部移除了原先的静态展开式 `GuideCard`。
+
+### 3. 受影响文件
+- `[NEW]` `src/components/modals/GuideModal.jsx` (新建使用指南 Modal 弹窗组件)
+- `[MODIFY]` `src/components/home/HomeHeroBanner.jsx` (添加“快速开始”按钮并绑定弹窗)
+- `[MODIFY]` `src/components/home/HomePage.jsx` (从首页底部移除 GuideCard)
 - `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
 
 
 

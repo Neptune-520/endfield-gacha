@@ -1,10 +1,12 @@
-import React, { useCallback } from 'react';
-import { ArrowRight, BarChart3, ChevronDown, ExternalLink, Sparkles } from 'lucide-react';
+import React, { useState, useCallback } from 'react';
+import { ArrowRight, BarChart3, ChevronDown, ExternalLink, Sparkles, Zap, BookOpen } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useI18n } from '../../i18n/index.js';
+import GuideModal from '../modals/GuideModal.jsx';
 
 export default function HomeHeroBanner({ user }) {
   const { t } = useI18n();
+  const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
 
   const handleCelebrationClick = useCallback((event) => {
     event.preventDefault();
@@ -70,14 +72,27 @@ export default function HomeHeroBanner({ user }) {
           记录您的抽卡历程，分析出货规律，为后续规划提供参考
         </p>
 
+        {/* 快速开始按钮区 */}
+        <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
+          <button
+            type="button"
+            onClick={() => setIsGuideModalOpen(true)}
+            className="group flex items-center gap-2.5 px-6 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-sm sm:text-base tracking-wide transition-all shadow-md hover:shadow-xl hover:scale-105 cursor-pointer"
+          >
+            <Zap size={18} className="fill-current text-slate-950" />
+            <span>快速开始</span>
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </button>
+        </div>
+
         {/* 官方站点双域名 Pills */}
-        <div className="pt-2 flex flex-wrap items-center justify-center gap-3 sm:gap-4 font-mono">
+        <div className="pt-1 flex flex-wrap items-center justify-center gap-3 sm:gap-4 font-mono">
           <span className="text-xs sm:text-sm text-slate-500 dark:text-zinc-400 font-sans font-medium">官方站点:</span>
           <a
             href="https://ef-gacha.mogujun.icu/"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 border border-amber-400/80 bg-amber-100/60 dark:bg-amber-950/50 px-4 py-2 text-xs sm:text-sm font-bold text-amber-900 dark:text-amber-300 transition-all hover:bg-amber-400 hover:text-slate-950 rounded-xl shadow-sm hover:shadow-md"
+            className="group inline-flex items-center gap-2 border border-amber-400/80 bg-amber-100/60 dark:bg-amber-950/50 px-3.5 py-1.5 text-xs sm:text-sm font-bold text-amber-900 dark:text-amber-300 transition-all hover:bg-amber-400 hover:text-slate-950 rounded-xl shadow-sm hover:shadow-md"
           >
             <span className="h-2 w-2 rounded-full bg-amber-500 group-hover:bg-slate-950" />
             <span>ef-gacha.mogujun.icu</span>
@@ -87,7 +102,7 @@ export default function HomeHeroBanner({ user }) {
             href="https://ef.nepst.cn/"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 border border-slate-200 dark:border-zinc-700 bg-slate-100/90 dark:bg-zinc-800/90 px-4 py-2 text-xs sm:text-sm font-medium text-slate-700 dark:text-zinc-300 transition-all hover:bg-slate-200 dark:hover:bg-zinc-700 hover:text-slate-900 dark:hover:text-white rounded-xl shadow-sm hover:shadow-md"
+            className="group inline-flex items-center gap-2 border border-slate-200 dark:border-zinc-700 bg-slate-100/90 dark:bg-zinc-800/90 px-3.5 py-1.5 text-xs sm:text-sm font-medium text-slate-700 dark:text-zinc-300 transition-all hover:bg-slate-200 dark:hover:bg-zinc-700 hover:text-slate-900 dark:hover:text-white rounded-xl shadow-sm hover:shadow-md"
           >
             <span className="h-2 w-2 rounded-full bg-slate-400 dark:bg-zinc-500" />
             <span>ef.nepst.cn</span>
@@ -96,7 +111,7 @@ export default function HomeHeroBanner({ user }) {
         </div>
 
         {!user && (
-          <div className="pt-2 flex items-center justify-center gap-2 text-xs sm:text-sm text-amber-700 dark:text-amber-400/90 font-medium">
+          <div className="pt-1 flex items-center justify-center gap-2 text-xs sm:text-sm text-amber-700 dark:text-amber-400/90 font-medium">
             <ArrowRight size={16} />
             <span>{t('home.loginHint')}</span>
           </div>
@@ -114,6 +129,9 @@ export default function HomeHeroBanner({ user }) {
           <ChevronDown size={22} className="animate-bounce" />
         </button>
       </div>
+
+      {/* 使用指南 弹窗组件 */}
+      <GuideModal isOpen={isGuideModalOpen} onClose={() => setIsGuideModalOpen(false)} />
     </div>
   );
 }
