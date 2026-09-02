@@ -433,9 +433,26 @@
 2. **容器横向宽幅拉长**：
    - 将展开窗口容器宽度提升至 `lg:w-[1060px] max-w-[1080px]`，为 `SummerLotteryBanner` 提供完全充裕的横向展示空间，消除文字被迫换行的问题。
 
+---
+
+## 变更 24：使用 createPortal 挂载至 document.body 解决层级穿透，并重构 Banner CSS 占比彻底解决文字重叠
+
+### 1. 修改背景与目的
+为了彻底消除底层 Hero Banner 标题等任何页面元素浮动在抽奖弹窗上方的堆叠上下文问题，以及解决抽奖 Banner 左侧文字列因比例受限而挤压重叠的问题，进行了如下彻底优化。
+
+### 2. 具体修改内容
+1. **`createPortal` 直挂 DOM 根节点**：
+   - 在 `SummerLotteryWidget.jsx` 中使用 React `createPortal(..., document.body)` 将浮窗组件直接挂载至 `document.body`，分配 `z-[99999]` 绝对顶层层级与 `bg-black/60 backdrop-blur-sm` 全屏黑色遮罩，彻底杜绝任何页面元素穿透浮动。
+2. **重构 Banner CSS 网格列占比**：
+   - 在 `SummerLotteryBanner.css` 中将 `.summer-lottery-banner` 的 `grid-template-columns` 从原先限定左侧仅占 35% 的 `minmax(350px, 35%)` 提升为 `minmax(420px, 48%)`，使左侧文字内容获得 500px+ 充裕宽度，彻底解决文字重叠与挤压换行问题。
+3. **窗口横向宽度扩至 1180px**：
+   - 将展开面板宽度提升至 `lg:w-[1180px] max-w-[1200px]`。
+
 ### 3. 受影响文件
-- `[MODIFY]` `src/components/home/SummerLotteryWidget.jsx` (提高 z-index 至 z-[200] 并拉长横向宽度至 1060px)
+- `[MODIFY]` `src/components/home/SummerLotteryWidget.jsx` (使用 createPortal 挂载至 document.body 并分配 z-[99999])
+- `[MODIFY]` `src/components/home/SummerLotteryBanner.css` (提升左侧文字列占比至 48% 彻底解决文字重叠)
 - `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
 
 
 

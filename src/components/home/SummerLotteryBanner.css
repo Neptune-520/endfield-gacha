@@ -273,7 +273,7 @@
 
 /* Reference-led collaboration banner */
 .summer-lottery-banner {
-  grid-template-columns: minmax(350px, 35%) minmax(0, 65%);
+  grid-template-columns: minmax(420px, 48%) minmax(0, 52%);
   min-height: 330px;
   border-color: rgb(10 91 204 / 18%);
   background: #fbfdff;
