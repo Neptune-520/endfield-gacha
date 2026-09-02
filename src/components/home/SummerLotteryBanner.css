@@ -273,14 +273,14 @@
 
 /* Reference-led collaboration banner */
 .summer-lottery-banner {
-  grid-template-columns: minmax(420px, 48%) minmax(0, 52%);
-  min-height: 330px;
+  grid-template-columns: minmax(0, 30%) minmax(0, 70%);
+  min-height: 400px;
   border-color: rgb(10 91 204 / 18%);
   background: #fbfdff;
   box-shadow: 0 22px 58px rgb(3 38 112 / 16%);
 }
 .summer-lottery-banner__info {
-  min-height: 330px;
+  min-height: 400px;
   padding: 36px clamp(30px, 3.2vw, 54px);
   position: relative;
   z-index: 5;
@@ -321,7 +321,7 @@
 .summer-lottery-banner__action { min-height: 38px; margin-top: 13px; box-shadow: 4px 4px 0 rgb(43 224 241 / 45%); }
 
 .summer-lottery-banner__visual {
-  min-height: 330px;
+  min-height: 400px;
   background: linear-gradient(180deg, #53e6f3 0%, #0aa7e7 28%, #075bd3 62%, #071b9f 100%);
 }
 .summer-lottery-banner__visual::before {

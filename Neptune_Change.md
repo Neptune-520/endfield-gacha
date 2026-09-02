@@ -462,10 +462,26 @@
 2. **样式覆盖注入机制**：
    - 在 `SummerLotteryBanner.jsx` 中新增 `className` 级联透传支持，在 `SummerLotteryWidget.jsx` 中通过动态 `<style>` 标签在拖动拉条时实时覆盖 `grid-template-columns` 与 `min-height`。
 
+---
+
+## 变更 26：锁定抽奖弹窗 1410px 宽度、30% 文字占比与 400px 高度，并清理调试区域
+
+### 1. 修改背景与目的
+根据调试拉条测得的最佳视觉效果，锁定抽奖弹窗与 Banner 的完美参数配置（总宽度 1410px、文字栏占比 30%、Banner 最小高度 400px），并清理用于调试的临时拉条控制栏。
+
+### 2. 具体修改内容
+1. **CSS 原生锁定最佳尺寸参数**：
+   - 在 `SummerLotteryBanner.css` 中设置 `.summer-lottery-banner` 的 `grid-template-columns: minmax(0, 30%) minmax(0, 70%)` 以及 `min-height: 400px`。
+2. **锁死 1410px 弹窗容器宽度**：
+   - 在 `SummerLotteryWidget.jsx` 中将浮窗容器固定为 `sm:w-[1410px] max-w-[1410px]`。
+3. **移除调试面板**：
+   - 从 `SummerLotteryWidget.jsx` 中完整清理 `Sliders` 调试组件与拉条 state，恢复干净优雅的正式发布版代码。
+
 ### 3. 受影响文件
-- `[MODIFY]` `src/components/home/SummerLotteryWidget.jsx` (新增可视化实时尺寸调试拉条控制面板)
-- `[MODIFY]` `src/components/home/SummerLotteryBanner.jsx` (添加 className 样式覆盖支持)
+- `[MODIFY]` `src/components/home/SummerLotteryWidget.jsx` (锁定 1410px 宽度并移除调试控制栏)
+- `[MODIFY]` `src/components/home/SummerLotteryBanner.css` (锁定 30% 文字占比与 400px Banner 高度)
 - `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
 
 
 
