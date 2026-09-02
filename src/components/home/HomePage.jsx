@@ -151,9 +151,15 @@ const HomePage = React.memo(() => {
   }, [isEnglish, limitedPoolSchedule, nextVersionCountdownTitle, nextVersionTargetDate, now, poolsArray, t]);
 
   const initialCollapseState = useMemo(() => getHomeCollapseState(), []);
-  
+  const [showGuide, setShowGuide] = useState(!initialCollapseState.guide);
 
-
+  const handleToggleGuide = useCallback(() => {
+    setShowGuide((prev) => {
+      const next = !prev;
+      setHomeCollapseState('guide', !next);
+      return next;
+    });
+  }, []);
 
   const handleCelebrationClick = useCallback((event) => {
     event.preventDefault();
