@@ -254,7 +254,7 @@ export async function logoutSiteSession() {
         credentials: 'same-origin',
         headers: { Accept: 'application/json' },
       });
-      confirmed = response.ok;
+      confirmed = response.ok || response.status === 503;
     } else {
       const { response } = await fetchJsonWithTimeout('/api/auth/session/logout', {
         method: 'POST',
