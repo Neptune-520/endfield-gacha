@@ -7,6 +7,7 @@ import {
   ChevronUp,
   Clock,
   ExternalLink,
+  Gift,
   Shield,
   Sparkles,
   Star,
@@ -33,6 +34,7 @@ import GuideCard from './GuideCard';
 import SummerLotteryBanner from './SummerLotteryBanner';
 import DonationThanksCard from '../donations/DonationThanksCard.jsx';
 import SecurityCommunityWidget from './SecurityCommunityWidget.jsx';
+import SummerLotteryWidget from './SummerLotteryWidget.jsx';
 import { ACCOUNT_RECOVERY_QQ_GROUP, ENGLISH_COMMUNITY_DISCORD_URL } from '../../constants/community';
 import {
   STORAGE_KEYS,
@@ -153,12 +155,12 @@ const HomePage = React.memo(() => {
   }, [isEnglish, limitedPoolSchedule, nextVersionCountdownTitle, nextVersionTargetDate, now, poolsArray, t]);
 
   const initialCollapseState = useMemo(() => getHomeCollapseState(), []);
-  const [showGuide, setShowGuide] = useState(!initialCollapseState.guide);
+  const [showLottery, setShowLottery] = useState(() => !initialCollapseState.lotteryBanner);
 
-  const handleToggleGuide = useCallback(() => {
-    setShowGuide((prev) => {
+  const handleToggleLottery = useCallback(() => {
+    setShowLottery((prev) => {
       const next = !prev;
-      setHomeCollapseState('guide', !next);
+      setHomeCollapseState('lotteryBanner', !next);
       return next;
     });
   }, []);
@@ -177,10 +179,7 @@ const HomePage = React.memo(() => {
 
   return (
     <div className="space-y-8 animate-fade-in relative">
-      {/* 1. 抽奖 Banner 独占整行全宽展示（防止内容截断） */}
-      <SummerLotteryBanner />
-
-      {/* 2. 首页下方 2-Column 布局网格 */}
+      {/* 首页下方 2-Column 布局网格 */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* 左侧 (7/12 列)：卡池倒计时与版本预告 */}
@@ -251,6 +250,7 @@ const HomePage = React.memo(() => {
       </div>
 
       <SecurityCommunityWidget />
+      <SummerLotteryWidget />
     </div>
   );
 });

@@ -375,9 +375,39 @@
 1. **抽奖 Banner 独占整行**：
    - 从 5 列右侧子网格中提取出 `SummerLotteryBanner`，放置在双列 Dashboard 网格的上方独占整行展现。
 
+---
+
+## 变更 20：将抽奖区块移动至右侧栏并重构为伸缩折叠面板
+
+### 1. 修改背景与目的
+为使首页主视角更加精简聚焦，将抽奖活动区块移至右侧栏中，并为其配备带有箭头控制器的伸缩折叠面板（`CollapsibleContent`），用户可随意展开或折叠抽奖活动明细，同时自动保存折叠状态。
+
+### 2. 具体修改内容
+1. **抽奖区块右侧伸缩折叠化**：
+   - 将 `SummerLotteryBanner` 移动至右侧（`lg:col-span-5`）与赞助致谢卡片并排组合。
+   - 包装为顶部带有 `Gift` Icon、标题与 `ChevronUp` 旋转箭头的折叠控制头，内部采用平滑 CSS 动画展开/收缩抽奖明细（使用 `compact` 紧凑渲染风格）。
+   - 自动在 `localStorage` 中记录折叠状态。
+
+---
+
+## 变更 21：将抽奖区块重构为紧贴屏幕右侧边缘的悬浮吸附折叠面板 (`SummerLotteryWidget`)
+
+### 1. 修改背景与目的
+为了避免抽奖卡片在页面常规排版中占用主视觉空间或被窄列截断，将其完全重构为独立固定在**屏幕最右侧边缘**（`fixed right-0`）的悬浮折叠吸附抽屉（`SummerLotteryWidget`）。
+
+### 2. 具体修改内容
+1. **新建右侧边缘悬浮抽屉**：
+   - 新建 `src/components/home/SummerLotteryWidget.jsx`，固定在屏幕右侧边缘（`fixed top-1/4 right-0 z-[85]`）。
+   - **收起状态**：呈现吸附在屏幕最右侧边缘的金色弧形悬浮标签（`夏日抽奖` + 跳动礼盒 Icon），不遮挡任何主视图内容。
+   - **展开状态**：平滑向左滑出侧边悬浮面板，渲染精致紧凑的抽奖活动明细卡片（`SummerLotteryBanner`），并带有独立的向右收起按钮。
+   - 自动在 `localStorage` 中记录并恢复用户的展开/收起偏好。
+
 ### 3. 受影响文件
-- `[MODIFY]` `src/components/home/HomePage.jsx` (抽奖 Banner 独占整行全宽展示)
+- `[NEW]` `src/components/home/SummerLotteryWidget.jsx` (新建屏幕右侧边缘悬浮抽奖组件)
+- `[MODIFY]` `src/components/home/HomePage.jsx` (挂载 SummerLotteryWidget 悬浮组件)
 - `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
+
 
 
 
