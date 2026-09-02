@@ -153,35 +153,7 @@ const HomePage = React.memo(() => {
   const initialCollapseState = useMemo(() => getHomeCollapseState(), []);
   
 
-  const handleToggleGameAnnouncements = useCallback(() => {
-    setShowGameAnnouncements((prev) => {
-      const next = !prev;
-      setHomeCollapseState('gameAnnouncements', !next);
-      return next;
-    });
-  }, []);
 
-  const handleAnnouncementViewed = useCallback(() => {
-    if (!isAnnouncementNew) {
-      return;
-    }
-
-    setTimeout(() => {
-      markAsViewed(STORAGE_KEYS.ANNOUNCEMENT_LAST_VIEWED);
-      setIsAnnouncementNew(false);
-    }, 2000);
-  }, [isAnnouncementNew]);
-
-  useEffect(() => {
-    if ((showUpdateAnnouncement || showTemporaryAnnouncements) && isAnnouncementNew) {
-      handleAnnouncementViewed();
-    }
-  }, [
-    showUpdateAnnouncement,
-    showTemporaryAnnouncements,
-    isAnnouncementNew,
-    handleAnnouncementViewed
-  ]);
 
   const handleCelebrationClick = useCallback((event) => {
     event.preventDefault();
