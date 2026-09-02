@@ -266,7 +266,46 @@
 - `[MODIFY]` `src/components/app/DesktopAppRoutes.jsx` (配置 /pool-info 路由页面)
 - `[MODIFY]` `src/components/app/DesktopDashboardWorkspace.jsx` (移除嵌入的轮换与机制卡片，恢复纯粹的卡池分析)
 - `[MODIFY]` `src/components/layout/AppHeader.jsx` (精准绑定卡池信息与卡池分析导航跳转与高亮)
+---
+
+## 变更 13：将“安全与隐私声明”及“QQ 交流群”模块迁移至左下角悬浮窗
+
+### 1. 修改背景与目的
+为了使首页主展示区更加聚焦于核心倒计时与资讯，同时保证安全隐私说明和 QQ 社区群入口始终随手触达，将首页原有的“安全与隐私声明”与“欢迎加入 QQ 群”卡片从页面主网格中移出，重构成左下角可收起/展开的浮动组件（`SecurityCommunityWidget`）。
+
+### 2. 具体修改内容
+1. **新建左下角悬浮组件**：
+   - 新建 `src/components/home/SecurityCommunityWidget.jsx`，固定定位在左下角（`fixed bottom-6 left-6 z-[80]`）。
+   - **收起状态**：呈现胶囊样式悬浮按钮，带有绿黄图标组合与指示呼吸灯，点击可展开面板。
+   - **展开状态**：渲染玻璃磨砂面板（`backdrop-blur-xl bg-white/95 dark:bg-zinc-900/95`），整合“安全与隐私声明”及“欢迎加入 QQ 群”（提供一键复制 QQ 群号与 Toast 提示）。
+   - 记忆用户的收起/展开状态。
+2. **首页布局精简**：
+   - 从 `src/components/home/HomePage.jsx` 中移除了静态嵌入的安全声明与 QQ 群网格卡片，将主展示区精简为直接呈现赞助与核心倒计时，并引入渲染 `SecurityCommunityWidget` 浮动组件。
+
+### 3. 受影响文件
+- `[NEW]` `src/components/home/SecurityCommunityWidget.jsx` (新建左下角安全声明与交流群悬浮组件)
+- `[MODIFY]` `src/components/home/HomePage.jsx` (移除首页静态安全声明与 QQ 群卡片，挂载悬浮组件)
+---
+
+## 变更 14：首页菜单正下方重构全屏全宽 Hero Banner
+
+### 1. 修改背景与目的
+为提升首页整体品牌沉浸感与视觉冲击力，在顶部导航菜单下方重构了横跨全屏宽度的全宽 Hero Banner 区域，集中展示品牌标题、全站域名标签、功能介绍以及突破 2K+ 数据的互动庆祝按钮。
+
+### 2. 具体修改内容
+1. **全宽 Hero Banner 样式**：
+   - 在 `src/components/home/HomePage.jsx` 顶部采用全宽边到边大 Banner（`-mx-4 sm:-mx-6 -mt-8 mb-6`），深色发光背景（`bg-gradient-to-r from-zinc-950 via-zinc-900 to-black`）搭配网格微光。
+2. **完整内容展示**：
+   - **大标题**：`终末地抽卡分析器`（配以品牌 Icon 与终末地黄主题配色）。
+   - **域名标签**：双域名标签 `ef-gacha.mogujun.icu` 与 `ef.nepst.cn`（带有外链指示与状态灯点）。
+   - **核心描述**：`记录您的抽卡历程，分析出货规律，为后续规划提供参考`。
+   - **互动庆祝**：右侧突出展示`恭喜网站突破 2K+ 人贡献抽卡数据`粒子庆祝胶囊按钮，点击可触发全屏礼花粒子效果。
+
+### 3. 受影响文件
+- `[MODIFY]` `src/components/home/HomePage.jsx` (重构顶部全屏全宽 Hero Banner)
 - `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
+
 
 
 

@@ -176,65 +176,83 @@ const HomePage = React.memo(() => {
 
   return (
     <div className="space-y-6 animate-fade-in relative">
-      <div className="relative overflow-hidden border-l-4 transition-all duration-500 bg-gradient-to-r from-zinc-800 to-zinc-900 dark:from-zinc-900 dark:to-black border-endfield-yellow p-6 text-white">
-        <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div className="min-w-0 flex-1">
-            <div className="mb-2 flex flex-wrap items-center gap-x-4 gap-y-2">
-              <h2 className="flex items-center gap-3 text-2xl font-bold">
-                <BarChart3 size={28} />
-                <span>{t('app.brand')}</span>
-              </h2>
+      {/* 顶部全屏全宽 Hero Banner */}
+      <div className="-mx-4 sm:-mx-6 -mt-8 mb-6 relative overflow-hidden bg-gradient-to-r from-zinc-950 via-zinc-900 to-black border-b border-amber-500/30 text-white shadow-xl">
+        {/* 背景科技感网格与光效装饰 */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,204,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,204,0,0.03)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 blur-[100px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-yellow-500/5 blur-[80px] rounded-full pointer-events-none" />
+
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-8 sm:py-10 relative z-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+          <div className="min-w-0 flex-1 space-y-3">
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 bg-amber-500/20 border border-amber-500/40 rounded-sm text-endfield-yellow shrink-0">
+                  <BarChart3 size={24} className="sm:w-7 sm:h-7" />
+                </div>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white">
+                  终末地抽卡分析器
+                </h1>
+              </div>
+
+              {/* 域名标签 */}
               <div className="flex flex-wrap items-center gap-2 font-mono">
                 <a
                   href="https://ef-gacha.mogujun.icu/"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${t('home.siteLinks.main')}: ef-gacha.mogujun.icu`}
-                  className="group inline-flex items-center gap-2 border border-endfield-yellow/50 bg-black/20 px-2.5 py-1 text-[10px] font-medium tracking-wide text-zinc-100 transition-colors hover:bg-endfield-yellow/15 hover:text-endfield-yellow"
+                  className="group inline-flex items-center gap-1.5 border border-amber-500/50 bg-black/40 px-2.5 py-1 text-xs font-bold text-zinc-100 transition-all hover:bg-amber-500/20 hover:text-endfield-yellow hover:border-amber-400 rounded-sm"
                 >
-                  <span className="h-1.5 w-1.5 bg-endfield-yellow shadow-[0_0_6px_rgba(250,204,21,0.7)]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(250,204,21,0.8)]" />
                   <span>ef-gacha.mogujun.icu</span>
-                  <ExternalLink size={10} className="text-zinc-500 transition-colors group-hover:text-endfield-yellow" />
+                  <ExternalLink size={12} className="text-zinc-500 transition-colors group-hover:text-endfield-yellow" />
                 </a>
                 <a
                   href="https://ef.nepst.cn/"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${t('home.siteLinks.backup')}: ef.nepst.cn`}
-                  className="group inline-flex items-center gap-2 border border-zinc-600 bg-black/20 px-2.5 py-1 text-[10px] font-medium tracking-wide text-zinc-300 transition-colors hover:border-zinc-400 hover:bg-white/10 hover:text-white"
+                  className="group inline-flex items-center gap-1.5 border border-zinc-700 bg-black/40 px-2.5 py-1 text-xs font-medium text-zinc-300 transition-all hover:border-zinc-500 hover:bg-white/10 hover:text-white rounded-sm"
                 >
-                  <span className="h-1.5 w-1.5 bg-zinc-400" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-zinc-400" />
                   <span>ef.nepst.cn</span>
-                  <ExternalLink size={10} className="text-zinc-600 transition-colors group-hover:text-zinc-300" />
+                  <ExternalLink size={12} className="text-zinc-500 transition-colors group-hover:text-zinc-300" />
                 </a>
               </div>
             </div>
-            <p className="text-sm text-indigo-100">
-              {t('home.heroSubtitle')}
+
+            {/* 主描述 */}
+            <p className="text-sm sm:text-base text-zinc-300 leading-relaxed max-w-3xl">
+              记录您的抽卡历程，分析出货规律，为后续规划提供参考
             </p>
+
             {!user && (
-              <p className="text-xs mt-2 flex items-center gap-1 text-indigo-200">
-                <ArrowRight size={12} />
-                {t('home.loginHint')}
+              <p className="text-xs text-amber-400/90 flex items-center gap-1.5 font-mono pt-1">
+                <ArrowRight size={14} />
+                <span>{t('home.loginHint')}</span>
               </p>
             )}
           </div>
 
-          <div className="flex shrink-0 items-center gap-3 self-end md:self-center animate-fade-in-up">
+          {/* 右侧庆祝 Badge / 按钮 */}
+          <div className="flex shrink-0 items-center animate-fade-in-up">
             <button
+              type="button"
               onClick={handleCelebrationClick}
-              className="group flex items-center gap-3 px-4 py-2 rounded-full transition-all cursor-pointer border bg-yellow-500/10 hover:bg-yellow-500/20 border-yellow-500/50 text-endfield-yellow"
+              className="group relative flex items-center gap-3 px-5 py-3 rounded-full border bg-amber-500/10 hover:bg-amber-500/20 border-amber-500/50 text-endfield-yellow font-bold text-sm sm:text-base tracking-wide transition-all duration-300 shadow-[0_0_20px_rgba(255,204,0,0.15)] hover:shadow-[0_0_30px_rgba(255,204,0,0.3)] cursor-pointer"
             >
-              <span className="text-sm font-bold font-mono tracking-wide">{t('home.celebration')}</span>
-              <div className="p-1.5 rounded-full transition-colors bg-yellow-500/20 group-hover:bg-yellow-500 group-hover:text-black text-yellow-500">
-                <Sparkles size={16} className="animate-pulse" />
+              <span>恭喜网站突破 2K+ 人贡献抽卡数据</span>
+              <div className="p-1.5 rounded-full transition-all bg-amber-500/20 group-hover:bg-amber-500 group-hover:text-black text-amber-400">
+                <Sparkles size={18} className="animate-pulse" />
               </div>
             </button>
           </div>
         </div>
 
-        <div className="absolute -right-10 -bottom-10 pointer-events-none text-white/10">
-          <Star size={200} />
+        {/* 背景巨型图形饰品 */}
+        <div className="absolute -right-10 -bottom-10 pointer-events-none text-white/5">
+          <Star size={240} />
         </div>
       </div>
 
