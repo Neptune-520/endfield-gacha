@@ -31,6 +31,7 @@ import CollapsibleContent from './CollapsibleContent';
 import GuideCard from './GuideCard';
 import SummerLotteryBanner from './SummerLotteryBanner';
 import DonationThanksCard from '../donations/DonationThanksCard.jsx';
+import SecurityCommunityWidget from './SecurityCommunityWidget.jsx';
 import { ACCOUNT_RECOVERY_QQ_GROUP, ENGLISH_COMMUNITY_DISCORD_URL } from '../../constants/community';
 import {
   STORAGE_KEYS,
@@ -239,58 +240,7 @@ const HomePage = React.memo(() => {
 
       <SummerLotteryBanner />
 
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
-        <div className="bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800/50 rounded-none overflow-hidden shadow-sm">
-          <div className="px-4 py-3 flex items-start gap-3">
-            <div className="p-2 bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-500 shrink-0">
-              <Shield size={20} />
-            </div>
-            <div>
-              <h3 className="text-sm font-bold text-green-800 dark:text-green-400 mb-1">
-                {t('home.securityTitle')}
-              </h3>
-              <div className="text-xs text-green-700 dark:text-green-500/80 leading-relaxed space-y-1">
-                <p>{t('home.securityCopy1')}</p>
-                <p>{t('home.securityCopy2')}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-zinc-900 dark:bg-black border border-zinc-800 rounded-none overflow-hidden shadow-sm text-white">
-          <div className="px-4 py-3 flex items-start gap-3">
-            <div className="p-2 bg-endfield-yellow/15 text-endfield-yellow border border-endfield-yellow/30 shrink-0">
-              <Users size={20} />
-            </div>
-            <div className="min-w-0">
-              <h3 className="text-sm font-bold text-white mb-1">
-                {t('home.communityTitle')}
-              </h3>
-              <div className="text-xs text-zinc-300 leading-relaxed space-y-2">
-                <p>{t('home.communityCopy1')}</p>
-                {isEnglish ? (
-                  <a
-                    href={ENGLISH_COMMUNITY_DISCORD_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={t('home.communityOpenLink')}
-                    className="block border border-zinc-700 bg-zinc-950/80 px-3 py-2 font-mono text-sm tracking-wide text-endfield-yellow break-all transition-colors hover:border-endfield-yellow/50 hover:text-white"
-                  >
-                    {communityLinkLabel}
-                  </a>
-                ) : (
-                  <div className="border border-zinc-700 bg-zinc-950/80 px-3 py-2 font-mono text-base tracking-wider text-endfield-yellow">
-                    {ACCOUNT_RECOVERY_QQ_GROUP}
-                  </div>
-                )}
-                <p className="text-zinc-400">{t('home.communityCopy2')}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <DonationThanksCard />
-      </div>
+      <DonationThanksCard />
 
 
 
@@ -329,6 +279,7 @@ const HomePage = React.memo(() => {
       </div>
 
       <GuideCard isOpen={showGuide} onToggle={handleToggleGuide} />
+      <SecurityCommunityWidget />
     </div>
   );
 });
