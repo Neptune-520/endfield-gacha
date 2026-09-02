@@ -1,6 +1,7 @@
 export const APP_TAB_IDS = [
   'home',
   'summary',
+  'poolInfo',
   'dashboard',
   'overview',
   'details',
@@ -19,6 +20,7 @@ export const APP_TAB_IDS = [
 export const DESKTOP_TAB_ROUTES = {
   home: '/',
   summary: '/summary',
+  poolInfo: '/pool-info',
   dashboard: '/dashboard',
   simulator: '/simulator',
   lotteryContacts: '/lottery-contacts',
@@ -52,6 +54,8 @@ const DESKTOP_TAB_ALIASES = {
   overview: 'summary',
   stats: 'summary',
   details: 'dashboard',
+  'pool-info': 'poolInfo',
+  'pool_info': 'poolInfo',
   'friend-links': 'links'
 };
 

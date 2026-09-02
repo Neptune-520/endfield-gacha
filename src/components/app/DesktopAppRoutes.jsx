@@ -4,6 +4,7 @@ import { useI18n } from '../../i18n/index.js';
 import PersonalDataBoundary from './PersonalDataBoundary.jsx';
 
 const HomePage = lazy(() => import('../home/HomePage'));
+const PoolInfoPage = lazy(() => import('../pool/PoolInfoPage'));
 const DesktopDashboardWorkspace = lazy(() => import('./DesktopDashboardWorkspace'));
 const GachaSimulator = lazy(() => import('../../features/simulator/GachaSimulator'));
 const SummaryView = lazy(() => import('../SummaryView'));
@@ -75,6 +76,14 @@ export default function DesktopAppRoutes({
             <PersonalDataBoundary user={user} onRetry={onRetryPersonalData}>
               <SummaryView />
             </PersonalDataBoundary>
+          </Suspense>
+        }
+      />
+      <Route
+        path="pool-info"
+        element={
+          <Suspense fallback={<TabPanelFallback label={tt('正在加载卡池信息...', 'Loading banner info...')} />}>
+            <PoolInfoPage />
           </Suspense>
         }
       />

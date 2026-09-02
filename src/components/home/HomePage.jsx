@@ -28,10 +28,7 @@ import CountdownTimer from './CountdownTimer';
 import HomecomingPreviewCard from './HomecomingPreviewCard';
 import HomeAnnouncementContent from './AnnouncementContent';
 import CollapsibleContent from './CollapsibleContent';
-import GameAnnouncementFeed from './GameAnnouncementFeed';
 import GuideCard from './GuideCard';
-import PoolMechanicsCard from './PoolMechanicsCard';
-import HomeRotationScheduleCard from './RotationScheduleCard';
 import SummerLotteryBanner from './SummerLotteryBanner';
 import DonationThanksCard from '../donations/DonationThanksCard.jsx';
 import { ACCOUNT_RECOVERY_QQ_GROUP, ENGLISH_COMMUNITY_DISCORD_URL } from '../../constants/community';
@@ -46,7 +43,6 @@ import { useAppStore, useAuthStore } from '../../stores';
 import { useI18n } from '../../i18n/index.js';
 import { localizeEntityName } from '../../utils/gameDataI18n.js';
 import { getLocalizedAnnouncementContent, getLocalizedAnnouncementTitle } from '../../utils/announcementLocale.js';
-import { resolveGameAnnouncementDigest } from '../../utils/gameAnnouncementDigest.js';
 import {
   buildHomeRotationVersionSections,
   buildHomeVersionCountdownTitle,
@@ -63,8 +59,6 @@ const HomePage = React.memo(() => {
   const { t, isEnglish, locale } = useI18n();
   const user = useAuthStore((state) => state.user);
   const announcements = useAppStore((state) => state.announcements);
-  const gameAnnouncements = useAppStore((state) => state.gameAnnouncements);
-  const storedGameAnnouncementDigest = useAppStore((state) => state.gameAnnouncementDigest);
   const pools = usePoolStore((state) => state.pools);
   const nextVersionTargetConfigValue = useSiteConfigStore(
     (state) => state.config[HOME_NEXT_VERSION_TARGET_CONFIG_KEY]
@@ -169,10 +163,6 @@ const HomePage = React.memo(() => {
       new Date(b?.updated_at || b?.created_at || 0) - new Date(a?.updated_at || a?.created_at || 0)
     ))[0] || null
   ), [temporaryAnnouncements, updateAnnouncements]);
-  const gameAnnouncementDigest = useMemo(
-    () => resolveGameAnnouncementDigest(storedGameAnnouncementDigest, gameAnnouncements, t),
-    [gameAnnouncements, storedGameAnnouncementDigest, t]
-  );
   const mostImportantTemporaryAnnouncement = useMemo(
     () => getMostImportantAnnouncement(temporaryAnnouncements),
     [temporaryAnnouncements]
@@ -193,7 +183,6 @@ const HomePage = React.memo(() => {
   const [showUpdateAnnouncement, setShowUpdateAnnouncement] = useState(
     hasAnnouncementUpdate ? true : !initialCollapseState.announcement
   );
-  const [showGameAnnouncements, setShowGameAnnouncements] = useState(!initialCollapseState.gameAnnouncements);
   const [isAnnouncementNew, setIsAnnouncementNew] = useState(hasAnnouncementUpdate);
 
   const handleTogglePoolMechanics = useCallback(() => {
@@ -389,7 +378,7 @@ const HomePage = React.memo(() => {
         <DonationThanksCard />
       </div>
 
-      {(temporaryAnnouncements.length > 0 || latestAnnouncement || gameAnnouncements.length > 0) && (
+      {(temporaryAnnouncements.length > 0 || latestAnnouncement) && (
         <div className="space-y-3">
           {temporaryAnnouncements.length > 0 && (
             <div className={`${temporarySeverityMeta.card} overflow-hidden border`}>
@@ -443,7 +432,6 @@ const HomePage = React.memo(() => {
             </div>
           )}
 
-          <div className="grid grid-cols-1 items-start gap-3 xl:grid-cols-2">
           {latestAnnouncement && (
             <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border border-amber-200 dark:border-amber-800 rounded-none overflow-hidden">
               <button
@@ -479,38 +467,6 @@ const HomePage = React.memo(() => {
               </CollapsibleContent>
             </div>
           )}
-
-          {gameAnnouncements.length > 0 && (
-            <div className="bg-gradient-to-r from-amber-50/60 to-orange-50/60 dark:from-amber-950/20 dark:to-orange-950/20 border border-amber-200/70 dark:border-amber-800/50 rounded-none overflow-hidden">
-              <button
-                onClick={handleToggleGameAnnouncements}
-                className="w-full px-4 py-3 flex items-center justify-between hover:bg-amber-100/30 dark:hover:bg-amber-900/20 transition-colors"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-amber-100/70 dark:bg-amber-900/20 text-amber-500 dark:text-amber-500 shrink-0">
-                    <Bell size={18} />
-                  </div>
-                    <div className="text-left">
-                      <div className="flex items-center gap-2">
-                      <span className="text-[10px] px-1.5 py-0.5 bg-orange-200 dark:bg-orange-900/50 text-orange-700 dark:text-orange-300 font-bold uppercase tracking-wide">{t('home.gameAnnouncement')}</span>
-                      <h3 className="font-bold text-amber-700 dark:text-amber-400">
-                        {gameAnnouncementDigest.title}
-                      </h3>
-                    </div>
-                    <p className="text-[11px] text-amber-600/60 dark:text-amber-500/50 mt-0.5">
-                      {gameAnnouncementDigest.subtitle}
-                    </p>
-                  </div>
-                </div>
-                <ChevronUp size={20} className={`text-amber-400 transition-transform duration-300 ${showGameAnnouncements ? '' : 'rotate-180'}`} />
-              </button>
-
-              <CollapsibleContent isOpen={showGameAnnouncements} unmountOnClose>
-                <GameAnnouncementFeed announcements={gameAnnouncements} maxItems={5} />
-              </CollapsibleContent>
-            </div>
-          )}
-          </div>
         </div>
       )}
 
@@ -542,8 +498,6 @@ const HomePage = React.memo(() => {
           </div>
         )}
 
-        <HomeRotationScheduleCard poolSchedule={poolSchedule} versionSections={poolScheduleVersionSections} now={now} />
-
         <HomecomingPreviewCard
           targetDate={nextVersionTargetDate}
           title={nextVersionCountdownTitle}
@@ -551,11 +505,6 @@ const HomePage = React.memo(() => {
       </div>
 
       <GuideCard isOpen={showGuide} onToggle={handleToggleGuide} />
-      <PoolMechanicsCard
-        isOpen={showPoolMechanics}
-        onToggle={handleTogglePoolMechanics}
-        currentUpInfo={currentUpInfo}
-      />
     </div>
   );
 });

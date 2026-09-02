@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useMemo, useState } from 'react';
+import React, { Suspense, useCallback, lazy, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ChevronDown, History, LogIn, Lock } from 'lucide-react';
 import EditItemModal from '../modals/EditItemModal';

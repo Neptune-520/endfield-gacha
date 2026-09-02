@@ -126,3 +126,151 @@
 - `[MODIFY]` `src/components/app/DesktopAppRoutes.jsx` (注册 links 与 roadmap 单页路由)
 - `[MODIFY]` `src/components/layout/AppHeader.jsx` (关于二级菜单关联新单页跳转)
 - `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
+---
+
+## 变更 6：平衡顶部导航栏一级菜单项宽度
+
+### 1. 修改背景与目的
+顶部导航栏中，包含二级下拉菜单的菜单项（“分析”、“工具”、“关于”）因为带有向下/上 Chevron 箭头图标和 Gap 间距，其渲染宽度大于无箭头的普通菜单项（“首页”、“管理”）。为了提升顶部导航栏的视觉平衡性与美观度，对所有一级菜单项的宽度进行了对齐平衡。
+
+### 2. 具体修改内容
+1. **设置统一最小宽度与居中对齐**：
+   - 在 `src/components/layout/AppHeader.jsx` 中，对 `NavTab`（普通菜单项）与 `NavDropdown`（下拉菜单项）的按钮均设置了 `min-w-[76px] sm:min-w-[92px]` 最小宽度与 `justify-center` 内容居中对齐。
+2. **平衡内边距**：
+   - 调整按钮 Padding 为 `px-3 sm:px-4`，保证 2 字文本包含/不包含箭头图标时，按钮整体渲染宽度统一为 `92px`（桌面端）/ `76px`（移动端）。
+3. **视觉一体化**：
+   - 保持所有一级菜单在 Hover 悬停高亮、底部 Active 激活线（3px 黄色线条）长度以及间距上的完全对称与平齐。
+
+### 3. 受影响文件
+- `[MODIFY]` `src/components/layout/AppHeader.jsx` (为 NavTab 与 NavDropdown 按钮添加 min-w 与 justify-center 样式)
+- `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
+---
+
+## 变更 7：顶部导航栏页面顶部透明化（二级菜单保持不透明）
+
+### 1. 修改背景与目的
+在页面滚动至最顶部时，将顶部导航栏背景变为完全透明状态，移除下边框与阴影，使页面顶部视觉更具沉浸感；当页面向下滚动时，平滑过渡回高斯模糊半透明背景与下边框；同时确保二级下拉菜单在任何状态下均保持 100% 不透明度，保证下拉菜单的可读性。
+
+### 2. 具体修改内容
+1. **添加页面滚动监听与状态控制**：
+   - 在 `src/components/layout/AppHeader.jsx` 中新增 `isScrolled` 状态与 `window.addEventListener('scroll')` 监听事件。
+   - 当 `scrollY <= 10` 时为顶部透明状态（`bg-transparent border-b border-transparent shadow-none`），网格背景 `opacity-0`。
+   - 当 `scrollY > 10` 时平滑过渡（`transition-all duration-300`）为固定半透明磨砂吸顶背景（`bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 shadow-sm`），网格背景 `opacity-100`。
+2. **二级菜单独立不透明**：
+   - 将 `NavDropdown` 浮动下拉弹窗面板背景显式设为实体纯色 `bg-white dark:bg-zinc-900 shadow-2xl border border-zinc-200 dark:border-zinc-800`，不受顶部导航栏父级透明度影响，保持完好的不透明视觉与阅读体验。
+
+### 3. 受影响文件
+- `[MODIFY]` `src/components/layout/AppHeader.jsx` (添加滚动透明度逻辑，并将二级下拉菜单样式明确设为实体不透明)
+- `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
+---
+
+## 变更 8：移除首页嵌入的游戏公告区域
+
+### 1. 修改背景与目的
+鉴于新闻与游戏公告功能已统一收口至右下角悬浮按钮及 65% 占位的分栏公告弹窗（`NewsModal`），避免首页内容冗余，将首页原有的“游戏公告”模块（`GameAnnouncementFeed`）从首页主视图中移除。
+
+### 2. 具体修改内容
+1. **首页移除游戏公告组件**：
+   - 从 `src/components/home/HomePage.jsx` 中移除了游戏公告列表模块（`GameAnnouncementFeed`）及其摘要卡片。
+   - 清理了首页中对应未使用的依赖与状态逻辑（`GameAnnouncementFeed` 引用、`resolveGameAnnouncementDigest` 摘要计算以及 `showGameAnnouncements` 展开收起状态）。
+2. **保持悬浮弹窗完整体验**：
+   - 官方游戏公告与本站公告依然可通过右下角悬浮“新闻”按钮随时打开分栏弹窗进行全量浏览。
+
+### 3. 受影响文件
+- `[MODIFY]` `src/components/home/HomePage.jsx` (移除首页游戏公告模块及相关依赖)
+- `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
+---
+
+## 变更 9：“全站统计”升级为顶部一级导航菜单
+
+### 1. 修改背景与目的
+为了提高高频核心功能“全站统计”的访问便捷性，将“全站统计”从“分析”二级下拉菜单中移出，提升为顶部一级导航菜单，固定放置在“首页”菜单项右侧。
+
+### 2. 具体修改内容
+1. **主导航结构调整**：
+   - 在 `src/components/layout/AppHeader.jsx` 中，将 `id="summary"`（“全站统计”）独立为 `NavTab` 一级菜单组件，置于“首页”（`id="home"`）右侧。
+2. **二级菜单精简**：
+   - 从“分析”（`NavDropdown`）二级下拉菜单中移除“全站统计”选项，仅保留“卡池信息”与“卡池分析”。
+   - 更新“分析”下拉菜单的高亮激活状态判定为 `active={activeTab === 'dashboard'}`。
+
+### 3. 受影响文件
+- `[MODIFY]` `src/components/layout/AppHeader.jsx` (将全站统计移至首页右侧作为一级菜单，并精简分析下拉菜单)
+- `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
+---
+
+## 变更 10：“轮换计划”与“公测卡池机制速览”迁移至二级菜单“卡池信息”
+
+### 1. 修改背景与目的
+为进一步精简首页布局、使其更加轻量聚焦，将首页原有的“轮换计划”（`HomeRotationScheduleCard`）与“公测卡池机制速览”（`PoolMechanicsCard`）模块从首页移除，并完整迁移合并至“分析 ➔ 卡池信息”视图中。
+
+### 2. 具体修改内容
+1. **首页移除卡片**：
+   - 从 `src/components/home/HomePage.jsx` 中删除了“轮换计划”与“公测卡池机制速览”模块及相关依赖引入与状态。
+2. **卡池信息集成与定位**：
+   - 在 `src/components/app/DesktopDashboardWorkspace.jsx` 中引入“轮换计划”与“公测卡池机制速览”组件，将其挂载在“卡池信息”面板底部（带有 `#pool-info-section` 锚点标识）。
+   - 在 `src/components/layout/AppHeader.jsx` 中为“卡池信息”下拉菜单项的点击事件增加了平滑滚动锚点逻辑，点击“卡池信息”可快速直达轮换计划与卡池机制说明区域。
+
+### 3. 受影响文件
+- `[MODIFY]` `src/components/home/HomePage.jsx` (从首页中移除轮换计划与卡池机制模块)
+- `[MODIFY]` `src/components/app/DesktopDashboardWorkspace.jsx` (在卡池信息视图中嵌入轮换计划与卡池机制模块，并补齐 `useCallback` 导入)
+- `[MODIFY]` `src/components/layout/AppHeader.jsx` (给卡池信息下拉菜单点击绑定锚点平滑滚动)
+- `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
+---
+
+## 变更 11：优化“分析”二级菜单中“卡池信息”与“卡池分析”的独立高亮激活状态
+
+### 1. 修改背景与目的
+此前由于“卡池信息”与“卡池分析”在下拉菜单中共享同一个 `activeTab === 'dashboard'` 的判定标准，导致展开“分析”下拉菜单时两个子选项会同时显示高亮。现改为依据 Hash 路径（`#pool-info-section`）精确区分两者的激活状态。
+
+### 2. 具体修改内容
+1. **精确区分激活状态**：
+   - 在 `src/components/layout/AppHeader.jsx` 中，引入 `useLocation` 获取 URL Hash。
+   - 当 Hash 为 `#pool-info-section` 时，仅高亮“卡池信息”；当 Hash 不为 `#pool-info-section` 时（如页面顶部），仅高亮“卡池分析”。
+2. **菜单跳转改进**：
+   - 点击“卡池信息”跳转至 `/dashboard#pool-info-section` 并平滑滚动至轮换计划及卡池机制区域。
+   - 点击“卡池分析”跳转至 `/dashboard` 并平滑置顶展示卡池分析数据。
+
+### 3. 受影响文件
+- `[MODIFY]` `src/components/layout/AppHeader.jsx` (精确区分卡池信息与卡池分析下拉选项的高亮激活状态)
+- `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
+---
+
+## 变更 12：“卡池信息”与“卡池分析”拆分为完全独立的页面组件
+
+### 1. 修改背景与目的
+根据最新架构与需求，“卡池信息”（`/pool-info`）与“卡池分析”（`/dashboard`）被彻底拆分为两个完全独立的页面组件：
+- **卡池信息**（`PoolInfoPage`）：无需登录，专一展示从首页迁移过来的“轮换计划”与“公测卡池机制速览”两项公开资讯。
+- **卡池分析**（`DesktopDashboardWorkspace`）：维持个人抽卡分析中心定位，需登录/导入个人抽卡日志后进行分析与查阅。
+
+### 2. 具体修改内容
+1. **新建独立页面组件**：
+   - 新建 `src/components/pool/PoolInfoPage.jsx`，专门渲染“轮换计划”与“公测卡池机制速览”，无个人数据依赖，开放给所有访问者浏览。
+2. **注册独立路由**：
+   - 在 `src/constants/appRoutes.js` 中注册 `poolInfo: '/pool-info'` 路由。
+   - 在 `src/components/app/DesktopAppRoutes.jsx` 中添加 `/pool-info` 路由项。
+3. **恢复卡池分析纯粹性**：
+   - 从 `src/components/app/DesktopDashboardWorkspace.jsx` 中移除此前临时嵌入的轮换计划与卡池机制，恢复其作为“卡池分析”的个人分析工作台功能。
+4. **导航菜单精准绑定**：
+   - 在 `src/components/layout/AppHeader.jsx` 的“分析”下拉菜单中，将“卡池信息”绑定至 `/pool-info`（`activeTab === 'poolInfo'`），将“卡池分析”绑定至 `/dashboard`（`activeTab === 'dashboard'`），彻底解决两个子项同时高亮的问题。
+
+### 3. 受影响文件
+- `[NEW]` `src/components/pool/PoolInfoPage.jsx` (新建卡池信息独立页面组件)
+- `[MODIFY]` `src/constants/appRoutes.js` (注册 poolInfo 路由)
+- `[MODIFY]` `src/components/app/DesktopAppRoutes.jsx` (配置 /pool-info 路由页面)
+- `[MODIFY]` `src/components/app/DesktopDashboardWorkspace.jsx` (移除嵌入的轮换与机制卡片，恢复纯粹的卡池分析)
+- `[MODIFY]` `src/components/layout/AppHeader.jsx` (精准绑定卡池信息与卡池分析导航跳转与高亮)
+- `[MODIFY]` `Neptune_Change.md` (更新变更日志)
+
+
+
+
+
+
+
